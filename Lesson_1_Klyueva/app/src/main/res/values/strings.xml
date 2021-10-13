@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Lesson_1_Klyueva</string>
+    <string name="btn_exercise1">Exercise 1</string>
+    <string name="btn_exercise2">Exercise 2</string>
+    <string name="btn_save">Save</string>
+    <string name="btn_print">Print</string>
+    <string name="hint_et_names">Имена через пробел</string>
+    <string name="hint_et_info">Имя Фамилия Класс Год рождения</string>
+    <string name="btn_print_info">Print</string>
+</resources>
