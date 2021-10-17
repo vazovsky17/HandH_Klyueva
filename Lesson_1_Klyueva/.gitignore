@@ -13,3 +13,9 @@
 .externalNativeBuild
 .cxx
 local.properties
+.idea/
+*iml
+*/build
+release_keystore.properties
+gp_publisher_keys.json
+
