@@ -1,4 +1,4 @@
-package app.vazovsky.lesson_3_klyueva
+package app.vazovsky.lesson_3_klyueva.ui
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity

@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Lesson_3_Klyueva">
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -18,9 +18,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".WithoutConstraintActivity" />
-        <activity android:name=".ConstraintActivity" />
-        <activity android:name=".CoordinatorActivity" />
+        <activity android:name=".ui.WithoutConstraintActivity" />
+        <activity android:name=".ui.ConstraintActivity" />
+        <activity android:name=".ui.CoordinatorActivity" />
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

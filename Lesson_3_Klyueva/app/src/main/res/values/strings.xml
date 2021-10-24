@@ -10,6 +10,28 @@
     <string name="next">Next</string>
     <string name="previous">Previous</string>
 
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="menu_edit">Edit</string>
+
+    <!-- Card -->
+    <string name="tv_card_number">Карта №8833061</string>
+    <string name="tv_card_job">Специалист</string>
+
+    <!-- Info Titles -->
+    <string name="tv_name_title">Имя</string>
+    <string name="tv_surname_title">Фамилия</string>
+    <string name="tv_email_title">E-mail</string>
+    <string name="tv_login_title">Логин</string>
+    <string name="tv_region_title">Ваш регион</string>
+
+    <!-- Info Examples -->
+    <string name="tv_name_example">Mарина</string>
+    <string name="style_surname_example">Клюева</string>
+    <string name="tv_email_example">hecchuck17@gmail.com</string>
+    <string name="tv_login_example">VA30VSKY1</string>
+    <string name="tv_region_example">Саратов</string>
+    <string name="tv_logout">Выйти из аккаунта</string>
+    <string name="btn_logout_desc">Выйти из аккаунта</string>
+    <string name="tv_title">Личные данные</string>
+    <string name="toolbar_title">Личный профиль</string>
+    <string name="iv_avatar_desc">Аватар</string>
 </resources>
