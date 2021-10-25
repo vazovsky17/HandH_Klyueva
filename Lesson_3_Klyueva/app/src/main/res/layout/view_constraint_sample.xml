@@ -20,7 +20,7 @@
 
     <TextView
         android:id="@+id/tvNameTitle"
-        style="@style/style_text_title"
+        style="@style/StyleTextTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingHorizontal="16dp"
@@ -32,7 +32,7 @@
 
     <TextView
         android:id="@+id/tvName"
-        style="@style/style_text"
+        style="@style/StyleText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingHorizontal="16dp"
@@ -45,7 +45,7 @@
 
     <TextView
         android:id="@+id/tvSurnameTitle"
-        style="@style/style_text_title"
+        style="@style/StyleTextTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingHorizontal="16dp"
@@ -57,7 +57,7 @@
 
     <TextView
         android:id="@+id/tvSurname"
-        style="@style/style_text"
+        style="@style/StyleText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingHorizontal="16dp"
@@ -70,7 +70,7 @@
 
     <TextView
         android:id="@+id/tvEmailTitle"
-        style="@style/style_text_title"
+        style="@style/StyleTextTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingHorizontal="16dp"
@@ -82,7 +82,7 @@
 
     <TextView
         android:id="@+id/tvEmail"
-        style="@style/style_text"
+        style="@style/StyleText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingHorizontal="16dp"
@@ -95,7 +95,7 @@
 
     <TextView
         android:id="@+id/tvLoginTitle"
-        style="@style/style_text_title"
+        style="@style/StyleTextTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingHorizontal="16dp"
@@ -107,7 +107,7 @@
 
     <TextView
         android:id="@+id/tvLogin"
-        style="@style/style_text"
+        style="@style/StyleText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingHorizontal="16dp"
@@ -128,7 +128,7 @@
 
         <TextView
             android:id="@+id/tvRegionTitle"
-            style="@style/style_text_title"
+            style="@style/StyleTextTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/tv_region_title"
@@ -137,7 +137,7 @@
 
         <TextView
             android:id="@+id/tvRegion"
-            style="@style/style_text"
+            style="@style/StyleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
