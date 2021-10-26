@@ -136,31 +136,16 @@
             app:srcCompat="@drawable/ic_edit" />
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/rlLogout"
+    <TextView
+        android:id="@+id/tvLogout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:background="?selectableItemBackground"
-        android:clickable="true"
-        android:focusable="true"
-        android:padding="16dp">
-
-        <ImageButton
-            android:id="@+id/btnLogout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/ic_logout"
-            android:contentDescription="@string/btn_logout_desc" />
-
-        <TextView
-            android:id="@+id/tvLogout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_toEndOf="@id/btnLogout"
-            android:text="@string/tv_logout"
-            android:textColor="@color/gray_dark" />
-    </RelativeLayout>
+        android:drawablePadding="32dp"
+        android:padding="16dp"
+        android:text="@string/tv_logout"
+        android:textColor="@color/gray_dark"
+        app:drawableStartCompat="@drawable/ic_logout" />
 
 </LinearLayout>

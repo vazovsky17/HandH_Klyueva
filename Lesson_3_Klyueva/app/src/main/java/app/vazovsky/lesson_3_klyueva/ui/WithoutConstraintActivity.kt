@@ -27,7 +27,7 @@ class WithoutConstraintActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.tvRegion).text = account.region
 
 
-        findViewById<RelativeLayout>(R.id.rlLogout).setOnClickListener {
+        findViewById<TextView>(R.id.tvLogout).setOnClickListener {
             Toast.makeText(this,"Выход", Toast.LENGTH_LONG).show()
         }
         findViewById<ImageButton>(R.id.btnEditRegion).setOnClickListener {

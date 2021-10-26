@@ -155,40 +155,17 @@
             app:srcCompat="@drawable/ic_edit" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/clLogout"
+    <TextView
+        android:id="@+id/tvLogout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:background="?selectableItemBackground"
-        android:clickable="true"
-        android:focusable="true"
+        android:drawablePadding="32dp"
         android:padding="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/clRegion">
-
-        <ImageButton
-            android:id="@+id/btnLogout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/ic_logout"
-            android:contentDescription="@string/btn_logout_desc"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tvLogout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_toEndOf="@id/btnLogout"
-            android:text="@string/tv_logout"
-            android:textColor="@color/gray_dark"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/btnLogout"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        android:text="@string/tv_logout"
+        android:textColor="@color/gray_dark"
+        app:drawableStartCompat="@drawable/ic_logout"
+        app:layout_constraintTop_toBottomOf="@id/clRegion" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
