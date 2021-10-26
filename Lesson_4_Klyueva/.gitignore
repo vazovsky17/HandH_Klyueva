@@ -1,0 +1,15 @@
+*.iml
+.gradle
+/local.properties
+.idea/
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+/.idea/workspace.xml
+*iml
+*/build
+release_keystore.properties
+gp_publisher_keys.json
