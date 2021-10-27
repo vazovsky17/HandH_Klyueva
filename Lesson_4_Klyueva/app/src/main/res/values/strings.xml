@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Lesson_4_Klyueva</string>
+    <string name="toolbar_title">Услуги сантехника</string>
+    <string name="menu_home">Home</string>
+    <string name="menu_info">Info</string>
+    <string name="image_view_img">Картинка для инфо</string>
 </resources>
