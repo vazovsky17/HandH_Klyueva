@@ -40,21 +40,21 @@ class InfoAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (getItemViewType(position)) {
-            BASE_TYPE -> (holder as BaseItemViewHolder).bind(items[position] as BaseInfoItem)
-            DETAIL_TYPE -> (holder as DetailItemViewHolder).bind(items[position] as DetailInfoItem)
             DETAIL_TYPE_HORIZONTAL -> (holder as BaseItemViewHolder).bind(items[position] as DetailInfoItem)
+            DETAIL_TYPE -> (holder as DetailItemViewHolder).bind(items[position] as DetailInfoItem)
+            BASE_TYPE -> (holder as BaseItemViewHolder).bind(items[position] as BaseInfoItem)
         }
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (items[position] is BaseInfoItem) {
-            BASE_TYPE
-        } else {
-            if (position == 6) {
+        return if (items[position] is DetailInfoItem) {
+            if (position % 2 == 0 && items[position + 1] !is DetailInfoItem) {
                 DETAIL_TYPE_HORIZONTAL
             } else {
                 DETAIL_TYPE
             }
+        } else {
+            BASE_TYPE
         }
     }
 }

@@ -41,7 +41,12 @@ class MainActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
         val layoutManager = GridLayoutManager(this, 2)
         layoutManager.spanSizeLookup = object : SpanSizeLookup() {
-            override fun getSpanSize(position: Int) = if (position < 6) 1 else 2
+            override fun getSpanSize(position: Int) = when (adapter.getItemViewType(position)) {
+                InfoAdapter.BASE_TYPE -> 2
+                InfoAdapter.DETAIL_TYPE_HORIZONTAL -> 2
+                InfoAdapter.DETAIL_TYPE -> 1
+                else -> -1
+            }
         }
         recyclerView.addItemDecoration(ItemDecorator())
         recyclerView.layoutManager = layoutManager

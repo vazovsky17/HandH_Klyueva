@@ -1,5 +1,6 @@
 package app.vazovsky.lesson_4_klyueva.tools
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,6 +32,7 @@ class BaseItemViewHolder(
         if (item is DetailInfoItem) {
             textViewBaseDesc.visibility = View.VISIBLE
             textViewBaseDesc.text = item.desc
+            textViewBaseDesc.setTextColor(if (item.isImportant) Color.RED else Color.GRAY)
         } else {
             textViewBaseDesc.visibility = View.GONE
             textViewBaseDesc.text = ""

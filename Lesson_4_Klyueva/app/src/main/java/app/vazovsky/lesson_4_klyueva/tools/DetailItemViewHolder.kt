@@ -26,9 +26,7 @@ class DetailItemViewHolder(
 
         textViewDetailTitle.text = detailItem.title
         textViewDetailDesc.text = detailItem.desc
-        if (detailItem.isImportant) {
-            textViewDetailDesc.setTextColor(Color.RED)
-        } else textViewDetailDesc.setTextColor(Color.GRAY)
+        textViewDetailDesc.setTextColor(if (detailItem.isImportant) Color.RED else Color.GRAY)
         imageViewDetailImg.setImageResource(detailItem.img)
     }
 }
