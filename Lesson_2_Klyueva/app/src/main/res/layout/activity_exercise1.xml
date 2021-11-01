@@ -5,35 +5,35 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/tv_poem"
+        android:id="@+id/textViewPoem"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:textColor="@color/textColor"
         android:maxLines="4"
-        android:text="@string/tv_poem"
+        android:text="@string/text_view_poem"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/iv_picture"
+        android:id="@+id/imageViewPicture"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/tv_poem"
+        app:layout_constraintBottom_toTopOf="@id/textViewPoem"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_picture" />
 
     <Button
-        android:id="@+id/btnVersionReview"
+        android:id="@+id/buttonVersionReview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/btn_version_review"
+        android:text="@string/button_version_review"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_poem" />
+        app:layout_constraintTop_toBottomOf="@id/textViewPoem" />
 </androidx.constraintlayout.widget.ConstraintLayout>

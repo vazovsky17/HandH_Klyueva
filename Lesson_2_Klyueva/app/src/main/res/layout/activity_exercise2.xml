@@ -7,7 +7,7 @@
     android:background="@drawable/patch9_picture">
 
     <ImageView
-        android:id="@+id/iv_shapes"
+        android:id="@+id/imageViewShapes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -17,12 +17,12 @@
         app:srcCompat="@drawable/style_background" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_corners"
+        android:id="@+id/buttonCorners"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/style_btn"
-        android:text="@string/btn_corners"
+        android:text="@string/button_corners"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_shapes" />
+        app:layout_constraintTop_toBottomOf="@id/imageViewShapes" />
 </androidx.constraintlayout.widget.ConstraintLayout>

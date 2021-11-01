@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Lesson_2_Klyueva</string>
-    <string name="tv_poem">Sorry, there is nothing</string>
-    <string name="btn_version_review" translatable="false">Боль и страдание</string>
-    <string name="btn_corners" translatable="false">Кнопка 1</string>
+    <string name="text_view_poem">Sorry, there is nothing</string>
+    <string name="button_version_review" translatable="false">Боль и страдание</string>
+    <string name="button_corners" translatable="false">Кнопка 1</string>
+    <string name="button_to_exercise_1" translatable="false">Exercise 1</string>
+    <string name="button_to_exercise_2" translatable="false">Exercise 2</string>
 </resources>
