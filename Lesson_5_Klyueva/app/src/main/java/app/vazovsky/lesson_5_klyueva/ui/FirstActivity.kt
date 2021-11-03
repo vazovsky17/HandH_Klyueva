@@ -1,9 +1,10 @@
-package app.vazovsky.lesson_5_klyueva
+package app.vazovsky.lesson_5_klyueva.ui
 
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import app.vazovsky.lesson_5_klyueva.R
 import com.google.android.material.button.MaterialButton
 
 class FirstActivity : AppCompatActivity() {

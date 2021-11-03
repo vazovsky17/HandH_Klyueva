@@ -1,10 +1,13 @@
-package app.vazovsky.lesson_5_klyueva
+package app.vazovsky.lesson_5_klyueva.ui
 
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import app.vazovsky.lesson_5_klyueva.FifthActivityContract
+import app.vazovsky.lesson_5_klyueva.R
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.snackbar.Snackbar
 
 class ThirdActivity : AppCompatActivity() {
     companion object {
@@ -13,16 +16,20 @@ class ThirdActivity : AppCompatActivity() {
         }
     }
 
+    private val launcher = registerForActivityResult(FifthActivityContract()) { inputText ->
+        Snackbar.make(findViewById(R.id.frameLayout), inputText, Snackbar.LENGTH_SHORT).show()
+    }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_third)
 
         findViewById<MaterialButton>(R.id.buttonToFirstActivity).setOnClickListener {
-            //сделать переход на первую Activity с удалением других активити со стэка
             startActivity(FirstActivity.createStartIntent(this))
         }
         findViewById<MaterialButton>(R.id.buttonToFifthActivity).setOnClickListener {
-            startActivity(FifthActivity.createStartIntent(this))
+            launcher.launch("")
         }
     }
 }

@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Lesson_5_Klyueva">
         <activity
-            android:name=".FirstActivity"
+            android:name=".ui.FirstActivity"
             android:exported="true"
             android:launchMode="singleTask">
             <intent-filter>
@@ -20,17 +20,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SecondActivity"
+            android:name=".ui.SecondActivity"
             android:exported="true" />
         <activity
-            android:name=".ThirdActivity"
+            android:name=".ui.ThirdActivity"
             android:exported="true" />
         <activity
             android:launchMode="singleTop"
-            android:name=".FourthActivity"
+            android:name=".ui.FourthActivity"
             android:exported="true" />
         <activity
-            android:name=".FifthActivity"
+            android:name=".ui.FifthActivity"
             android:exported="true" />
     </application>
 
