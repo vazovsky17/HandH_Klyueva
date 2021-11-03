@@ -27,7 +27,7 @@ class FirstActivity : AppCompatActivity() {
             startActivity(FourthActivity.createStartIntent(this, currentTime))
         }
         findViewById<MaterialButton>(R.id.buttonToSixthActivity).setOnClickListener {
-            // Создать верстку для 6 активити
+            startActivity(SixthActivity.createStartIntent(this))
         }
 
     }

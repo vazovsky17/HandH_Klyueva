@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?selectableItemBackground"
+    android:paddingHorizontal="8dp"
+    android:paddingVertical="16dp">
+
+    <ImageView
+        android:id="@+id/imageViewServiceImage"
+        android:layout_width="92dp"
+        android:layout_height="92dp"
+        android:contentDescription="@string/image_view_service_image_desc"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_launcher_background" />
+
+    <ImageView
+        android:id="@+id/imageViewServiceFavorite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:contentDescription="@string/image_view_service_favorite_desc"
+        android:visibility="visible"
+        app:layout_constraintStart_toStartOf="@id/imageViewServiceImage"
+        app:layout_constraintTop_toTopOf="@id/imageViewServiceImage"
+        app:srcCompat="@drawable/ic_favorite" />
+
+    <ImageButton
+        android:id="@+id/buttonContextMenu"
+        style="@style/Widget.MaterialComponents.Button"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="12dp"
+        android:background="?selectableItemBackgroundBorderless"
+        android:contentDescription="@string/context_menu"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_context_menu" />
+
+    <TextView
+        android:id="@+id/textViewServiceTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="48dp"
+        android:fontFamily="@font/roboto"
+        android:textColor="@color/gray_normal"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="@id/buttonContextMenu"
+        app:layout_constraintStart_toEndOf="@id/imageViewServiceImage"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="KFC" />
+
+    <TextView
+        android:id="@+id/textViewServiceCoupon"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="48dp"
+        android:fontFamily="@font/roboto_medium"
+        android:maxLines="2"
+        android:scrollHorizontally="false"
+        android:textColor="@color/gray_dark"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toStartOf="@id/buttonContextMenu"
+        app:layout_constraintStart_toEndOf="@id/imageViewServiceImage"
+        app:layout_constraintTop_toBottomOf="@id/textViewServiceTitle"
+        tools:text="Скидка 30% на доставку" />
+
+    <TextView
+        android:id="@+id/textViewServiceAddress"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="48dp"
+        android:fontFamily="@font/roboto"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toStartOf="@id/buttonContextMenu"
+        app:layout_constraintStart_toEndOf="@id/imageViewServiceImage"
+        app:layout_constraintTop_toBottomOf="@id/textViewServiceCoupon"
+        tools:text="Кирова пр., 17" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

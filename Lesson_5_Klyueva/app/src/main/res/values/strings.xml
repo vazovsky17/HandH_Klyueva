@@ -23,6 +23,15 @@
     <string name="text_view_activity_3">Activity 3</string>
     <string name="text_view_activity_4">Activity 4</string>
     <string name="text_view_activity_5">Activity 5</string>
+    <string name="toolbar_services_title">Услуги</string>
+    <string name="text_view_description">Услуги управляющей компании будут доступны после сдачи дома</string>
+    <string name="text_view_title">Услуги</string>
+    <string name="textViewShowAll">Все</string>
+    <string name="text_view_offer_service">Предложить услугу</string>
+    <string name="image_view_service_image_desc">Service Image</string>
+    <string name="image_view_service_favorite_desc">Service Favorite</string>
+    <string name="context_menu">Context Menu</string>
+    <string name="menu_service_favorite">Добавить в избранное</string>
 
     <!-- Activity 6 -->
 
