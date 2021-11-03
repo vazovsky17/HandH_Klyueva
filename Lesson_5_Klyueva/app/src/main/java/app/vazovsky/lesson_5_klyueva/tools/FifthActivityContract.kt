@@ -1,10 +1,9 @@
-package app.vazovsky.lesson_5_klyueva
+package app.vazovsky.lesson_5_klyueva.tools
 
 import android.content.Context
 import android.content.Intent
 import androidx.activity.result.contract.ActivityResultContract
 import app.vazovsky.lesson_5_klyueva.ui.FifthActivity
-import app.vazovsky.lesson_5_klyueva.ui.ThirdActivity
 
 class FifthActivityContract : ActivityResultContract<String, String>() {
     override fun createIntent(context: Context, input: String): Intent {

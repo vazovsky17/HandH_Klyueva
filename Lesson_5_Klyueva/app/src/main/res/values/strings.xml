@@ -7,10 +7,15 @@
     <string name="button_to_third_activity">Go to 3</string>
     <string name="button_to_fourth_activity">Go to 4</string>
     <string name="button_to_fifth_activity">Go to 5</string>
+    <string name="button_to_fifth_activity_2">Go To 5 (Ex 4)</string>
     <string name="button_to_sixth_activity">Go to 6</string>
-
     <string name="button_to_this">Go to 4 again</string>
+
+    <!-- Activity 5 -->
     <string name="button_deliver_result">Deliver Result</string>
+    <string name="edit_text_input_result">Вводите текст для снэкбара</string>
+    <string name="edit_text_data">Введите текст для 4 задания</string>
+    <string name="button_save">Save</string>
 
     <!-- Text for activities -->
     <string name="text_view_activity_1">Activity 1</string>
