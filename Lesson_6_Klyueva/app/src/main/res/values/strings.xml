@@ -1,3 +1,21 @@
 <resources>
     <string name="app_name">Lesson_6_Klyueva</string>
+
+    <!-- Navigation View Titles -->
+    <string name="menu_item_one">Item one</string>
+    <string name="menu_item_two">Item two</string>
+    <string name="menu_item_three">Item three</string>
+
+    <!-- First Fragment Titles -->
+    <string name="first_item_search">Поиск</string>
+    <string name="first_item_add">Добавить</string>
+    <string name="first_item_edit">Редактировать</string>
+    <string name="first_item_delete">Удалить</string>
+
+    <!-- Second Fragment Titles -->
+    <string name="second_item_lamp">Услуга</string>
+    <string name="text_view_service_new_data">Новые показания</string>
+    <string name="text_view_electro_service_day_data">День</string>
+    <string name="text_view_electro_service_night_data">Ночь</string>
+    <string name="text_view_electro_service_pick_data">Пик</string>
 </resources>

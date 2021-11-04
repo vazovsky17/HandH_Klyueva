@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/firstItemSearch"
+        android:icon="@drawable/ic_search"
+        android:title="@string/first_item_search"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/firstItemAdd"
+        android:icon="@drawable/ic_add"
+        android:title="@string/first_item_add"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/firstItemEdit"
+        android:icon="@drawable/ic_edit"
+        android:title="@string/first_item_edit" />
+    <item
+        android:id="@+id/firstItemDelete"
+        android:icon="@drawable/ic_delete"
+        android:title="@string/first_item_delete" />
+</menu>
