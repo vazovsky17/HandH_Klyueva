@@ -1,4 +1,4 @@
-package app.vazovsky.lesson_6_klyueva.tools
+package app.vazovsky.lesson_6_klyueva.tools.services
 
 import android.graphics.Color
 import android.view.LayoutInflater

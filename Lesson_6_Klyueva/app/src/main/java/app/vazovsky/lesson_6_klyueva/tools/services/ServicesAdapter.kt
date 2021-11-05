@@ -1,4 +1,4 @@
-package app.vazovsky.lesson_6_klyueva.tools
+package app.vazovsky.lesson_6_klyueva.tools.services
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView

@@ -18,4 +18,8 @@
     <string name="text_view_electro_service_day_data">День</string>
     <string name="text_view_electro_service_night_data">Ночь</string>
     <string name="text_view_electro_service_pick_data">Пик</string>
+
+    <!-- Third Fragment Titles-->
+    <string name="button_show_banner_showed">Показать баннер</string>
+    <string name="button_show_banner_hidden">Свернуть баннер</string>
 </resources>

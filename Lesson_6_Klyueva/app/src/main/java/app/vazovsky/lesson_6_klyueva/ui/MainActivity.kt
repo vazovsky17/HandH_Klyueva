@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import app.vazovsky.lesson_6_klyueva.R
+import app.vazovsky.lesson_6_klyueva.ui.ex3.ThirdFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 

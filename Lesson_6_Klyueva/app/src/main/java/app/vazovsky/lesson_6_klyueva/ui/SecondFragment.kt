@@ -10,7 +10,7 @@ import app.vazovsky.lesson_6_klyueva.R
 import app.vazovsky.lesson_6_klyueva.model.ElectroService
 import app.vazovsky.lesson_6_klyueva.model.Service
 import app.vazovsky.lesson_6_klyueva.model.WaterService
-import app.vazovsky.lesson_6_klyueva.tools.ServicesAdapter
+import app.vazovsky.lesson_6_klyueva.tools.services.ServicesAdapter
 import com.google.android.material.appbar.MaterialToolbar
 
 class SecondFragment : Fragment(R.layout.fragment_second) {
