@@ -1,9 +1,6 @@
 package app.vazovsky.lesson_7_klyueva.presentation.bridge
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
@@ -16,9 +13,6 @@ import app.vazovsky.lesson_7_klyueva.data.model.Bridge
 import app.vazovsky.lesson_7_klyueva.data.model.Bridge.Companion.STATE_LATE
 import app.vazovsky.lesson_7_klyueva.presentation.FragmentListener
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.target.CustomTarget
-import com.bumptech.glide.request.transition.Transition
-import com.google.android.material.appbar.AppBarLayout
 
 class BridgeFragment : Fragment(R.layout.fragment_bridge) {
     companion object {
@@ -48,7 +42,7 @@ class BridgeFragment : Fragment(R.layout.fragment_bridge) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val appBar = view.findViewById<AppBarLayout>(R.id.appBar)
+        val toolbarBackground = view.findViewById<ImageView>(R.id.imageViewToolbarBackground)
         val toolbar = view.findViewById<Toolbar>(R.id.toolbar)
 
         toolbar.setNavigationOnClickListener {
@@ -69,12 +63,6 @@ class BridgeFragment : Fragment(R.layout.fragment_bridge) {
             .asBitmap()
             .load(if (bridge.getState() == STATE_LATE) bridge.photoCloseUrl else bridge.photoOpenUrl)
             .centerCrop()
-            .into(object : CustomTarget<Bitmap>() {
-                override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                    appBar.background = BitmapDrawable(resources, resource)
-                }
-
-                override fun onLoadCleared(placeholder: Drawable?) {}
-            })
+            .into(toolbarBackground)
     }
 }

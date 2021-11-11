@@ -1,4 +1,4 @@
-package app.vazovsky.lesson_7_klyueva.presentation.list
+package app.vazovsky.lesson_7_klyueva.presentation.bridgelist
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -14,7 +14,7 @@ class BridgeViewHolder(
     val parent: ViewGroup,
     private val onItemClick: (Bridge) -> Unit
 ) : RecyclerView.ViewHolder(
-    LayoutInflater.from(parent.context).inflate(R.layout.view_bridge, parent, false)
+    LayoutInflater.from(parent.context).inflate(R.layout.item_bridge, parent, false)
 ) {
 
     private val imageViewBridgeState by lazy { itemView.findViewById<ImageView>(R.id.imageViewBridgeState) }

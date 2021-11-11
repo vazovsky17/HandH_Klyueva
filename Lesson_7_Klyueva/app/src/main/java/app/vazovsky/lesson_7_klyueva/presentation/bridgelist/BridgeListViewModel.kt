@@ -1,4 +1,4 @@
-package app.vazovsky.lesson_7_klyueva
+package app.vazovsky.lesson_7_klyueva.presentation.bridgelist
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import app.vazovsky.lesson_7_klyueva.data.remote.BridgeApi
 import kotlinx.coroutines.launch
 
-class StateViewModel : ViewModel() {
+class BridgeListViewModel : ViewModel() {
 
     val bridgeState = MutableLiveData<BrigdeState>()
 

@@ -1,10 +1,10 @@
-package app.vazovsky.lesson_7_klyueva.presentation.list
+package app.vazovsky.lesson_7_klyueva.presentation.bridgelist
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.vazovsky.lesson_7_klyueva.data.model.Bridge
 
-class BridgesAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class BridgeListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val items = mutableListOf<Bridge>()
     override fun getItemCount() = items.size

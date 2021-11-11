@@ -1,4 +1,4 @@
-package app.vazovsky.lesson_7_klyueva
+package app.vazovsky.lesson_7_klyueva.presentation.bridgelist
 
 import app.vazovsky.lesson_7_klyueva.data.model.Bridge
 
