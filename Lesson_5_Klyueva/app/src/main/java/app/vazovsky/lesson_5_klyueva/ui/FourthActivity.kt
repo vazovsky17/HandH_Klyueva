@@ -37,9 +37,9 @@ class FourthActivity : AppCompatActivity() {
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
+        setIntent(intent)
         intent?.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
         getTime()
-        setIntent(intent)
     }
 
     private fun getTime() {
