@@ -12,6 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import app.vazovsky.lesson_7_klyueva.R
+import app.vazovsky.lesson_7_klyueva.data.BridgeState
 import app.vazovsky.lesson_7_klyueva.data.model.Bridge
 import app.vazovsky.lesson_7_klyueva.presentation.FragmentListener
 import app.vazovsky.lesson_7_klyueva.presentation.bridge.BridgeFragment
@@ -74,19 +75,19 @@ class BridgeListFragment : Fragment(R.layout.fragment_bridge_list) {
                 else -> false
             }
         }
-        viewModel.bridgeState.observe(viewLifecycleOwner, { state ->
+        viewModel.bridgeListStateLiveData.observe(viewLifecycleOwner, { state ->
             when (state) {
-                is BrigdeState.Loading -> {
+                is BridgeState.Loading -> {
                     setStateLoading()
                 }
-                is BrigdeState.Data -> {
+                is BridgeState.Data -> {
                     if (state.data.isEmpty()) {
                         setStateEmptyLoaded()
                     } else {
                         setStateSuccessLoaded(state.data)
                     }
                 }
-                is BrigdeState.Error -> {
+                is BridgeState.Error -> {
                     setStateError(state.error)
                 }
                 else -> setStateLoading()
