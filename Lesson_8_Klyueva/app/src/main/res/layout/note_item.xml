@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardViewNoteItem"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="4dp"
+    tools:cardBackgroundColor="@color/yellow_200">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/textViewNoteTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_medium"
+            android:textSize="16sp"
+            tools:text="Купить батон"
+            tools:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/textViewNoteContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:ellipsize="start"
+            android:fontFamily="@font/roboto"
+            android:maxLines="7"
+            android:textSize="14sp"
+            tools:text="Hey let’s catch up soon. Do you want
+to grab lunch sometime this weekend? Let me know when you’re free!"
+            tools:textColor="@color/white" />
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

@@ -34,6 +34,11 @@ class DatabaseClient private constructor(
         db.getNoteDao().updateNote(note)
     }
 
+    suspend fun deleteNote(note: NoteEntity){
+        db.getNoteDao().deleteNote(note)
+    }
+
+
     fun getNotes(): Flow<List<NoteEntity>> {
         return db.getNoteDao().getNotes()
     }

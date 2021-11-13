@@ -1,18 +1,26 @@
 package app.vazovsky.lesson_8_klyueva.presentation.note
 
+import android.content.Context
+import android.graphics.Color
+import android.os.Bundle
+import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import app.vazovsky.lesson_8_klyueva.R
 import app.vazovsky.lesson_8_klyueva.data.db.entity.NoteEntity
 import app.vazovsky.lesson_8_klyueva.databinding.FragmentNoteBinding
+import app.vazovsky.lesson_8_klyueva.presentation.FragmentListener
 import by.kirich1409.viewbindingdelegate.viewBinding
 
 class NoteFragment : Fragment(R.layout.fragment_note) {
 
     private val binding by viewBinding(FragmentNoteBinding::bind)
+    private val viewModel: NoteViewModel by viewModels()
+    private var fragmentListener: FragmentListener? = null
 
     companion object {
-        const val EXTRA_NOTE = "extra_note"
+        private const val EXTRA_NOTE = "extra_note"
 
         fun newInstance(note: NoteEntity): NoteFragment {
             return NoteFragment().apply {
@@ -21,5 +29,55 @@ class NoteFragment : Fragment(R.layout.fragment_note) {
                 )
             }
         }
+    }
+
+    private val toolbar get() = binding.toolbar
+    private val editTextNoteTitle get() = binding.editTextNoteTitle
+    private val editTextNoteContent get() = binding.editTextNoteContent
+    private val noteBackground get() = binding.noteBackground
+
+    private val note by lazy {
+        arguments?.getParcelable<NoteEntity>(EXTRA_NOTE)!!
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        editTextNoteTitle.setText(note.title)
+        editTextNoteContent.setText(note.content)
+        noteBackground.setBackgroundColor(note.color)
+
+        toolbar.setNavigationOnClickListener {
+            note.title = editTextNoteTitle.text.toString()
+            note.content = editTextNoteContent.text.toString()
+            viewModel.update(requireContext(), note)
+            fragmentListener?.goBack()
+        }
+        toolbar.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.menu_color -> {
+                    note.color = Color.BLUE
+                    noteBackground.setBackgroundColor(note.color)
+                    viewModel.update(requireContext(), note)
+                    true
+                }
+                else -> {
+                    false
+                }
+            }
+        }
+    }
+
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is FragmentListener) {
+            fragmentListener = context
+        }
+    }
+
+    override fun onDetach() {
+        fragmentListener = null
+        super.onDetach()
     }
 }
