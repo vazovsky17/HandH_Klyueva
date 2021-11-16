@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import app.vazovsky.lesson_8_klyueva.data.db.DatabaseClient
 import app.vazovsky.lesson_8_klyueva.data.db.entity.NoteEntity
@@ -19,7 +20,7 @@ class NoteListViewModel : ViewModel() {
     private val _notesLiveData = MutableLiveData<List<NoteEntity>>()
     val notesLiveData: LiveData<List<NoteEntity>> = _notesLiveData
 
-    fun subscribeToState(context: Context) {
+    fun loadNotes(context: Context) {
         viewModelScope.launch {
             try {
                 _stateLiveData.postValue(State.Loading())
@@ -42,12 +43,6 @@ class NoteListViewModel : ViewModel() {
     fun insert(context: Context, note: NoteEntity) {
         viewModelScope.launch {
             DatabaseClient.getInstance(context).insertNote(note)
-        }
-    }
-
-    fun update(context: Context, note: NoteEntity) {
-        viewModelScope.launch {
-            DatabaseClient.getInstance(context).updateNote(note)
         }
     }
 

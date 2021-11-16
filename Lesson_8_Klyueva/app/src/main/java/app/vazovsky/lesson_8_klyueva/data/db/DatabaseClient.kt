@@ -30,10 +30,6 @@ class DatabaseClient private constructor(
         db.getNoteDao().insertNote(note)
     }
 
-    suspend fun updateNote(note: NoteEntity) {
-        db.getNoteDao().updateNote(note)
-    }
-
     suspend fun deleteNote(note: NoteEntity){
         db.getNoteDao().deleteNote(note)
     }

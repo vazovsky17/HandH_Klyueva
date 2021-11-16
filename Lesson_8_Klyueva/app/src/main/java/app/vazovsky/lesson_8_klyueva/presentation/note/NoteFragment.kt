@@ -50,7 +50,7 @@ class NoteFragment : Fragment(R.layout.fragment_note) {
         toolbar.setNavigationOnClickListener {
             note.title = editTextNoteTitle.text.toString()
             note.content = editTextNoteContent.text.toString()
-            viewModel.update(requireContext(), note)
+            viewModel.insert(requireContext(), note)
             fragmentListener?.goBack()
         }
         toolbar.setOnMenuItemClickListener {
@@ -58,7 +58,6 @@ class NoteFragment : Fragment(R.layout.fragment_note) {
                 R.id.menu_color -> {
                     note.color = Color.BLUE
                     noteBackground.setBackgroundColor(note.color)
-                    viewModel.update(requireContext(), note)
                     true
                 }
                 else -> {

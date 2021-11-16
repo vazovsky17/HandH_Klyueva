@@ -8,9 +8,10 @@ import app.vazovsky.lesson_8_klyueva.data.db.entity.NoteEntity
 import kotlinx.coroutines.launch
 
 class NoteViewModel : ViewModel() {
-    fun update(context: Context, note: NoteEntity) {
-        viewModelScope.launch {
-            DatabaseClient.getInstance(context).updateNote(note)
+
+    fun insert(context: Context, note: NoteEntity) {
+        viewModelScope.launch{
+            DatabaseClient.getInstance(context).insertNote(note)
         }
     }
 }
