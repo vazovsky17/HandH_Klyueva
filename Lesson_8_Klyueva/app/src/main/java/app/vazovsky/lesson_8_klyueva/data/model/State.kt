@@ -5,6 +5,6 @@ import kotlinx.coroutines.flow.Flow
 
 sealed class State {
     class Loading : State()
-    class Data(val data: Flow<List<NoteEntity>>) : State()
+    class Data(val data: List<NoteEntity>, val count :Int) : State()
     class Error(val error: Exception) : State()
 }

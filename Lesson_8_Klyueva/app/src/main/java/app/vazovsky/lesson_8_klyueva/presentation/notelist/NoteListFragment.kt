@@ -2,29 +2,22 @@ package app.vazovsky.lesson_8_klyueva.presentation.notelist
 
 import android.content.Context
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
-import app.vazovsky.lesson_8_klyueva.R
 import app.vazovsky.lesson_8_klyueva.data.db.entity.NoteEntity
 import app.vazovsky.lesson_8_klyueva.data.model.State
 import app.vazovsky.lesson_8_klyueva.databinding.FragmentNoteListBinding
 import app.vazovsky.lesson_8_klyueva.presentation.FragmentListener
 import app.vazovsky.lesson_8_klyueva.presentation.note.NoteFragment
 import by.kirich1409.viewbindingdelegate.viewBinding
-import android.view.ContextMenu.ContextMenuInfo
-
-import android.view.ContextMenu
-import android.view.Menu
-import android.view.MenuItem
-import android.widget.EditText
 import android.widget.SearchView
-import androidx.lifecycle.asLiveData
-import kotlinx.coroutines.flow.toList
+import app.vazovsky.lesson_8_klyueva.R
+import android.view.MenuItem
 
 
 class NoteListFragment : Fragment(R.layout.fragment_note_list) {
@@ -50,6 +43,7 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
     private val recyclerView get() = binding.recyclerView
     private val fab get() = binding.fab
     private val viewFlipper get() = binding.viewFlipper
+    private val adapter = NoteListAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,7 +54,6 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val adapter = NoteListAdapter()
         adapter.onItemClick = { note ->
             fragmentListener?.goToFragment(NoteFragment.newInstance(note))
         }
@@ -86,32 +79,42 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
                     viewFlipper.displayedChild = STATE_PROGRESS_BAR
                 }
                 is State.Data -> {
-                    viewFlipper.displayedChild = STATE_RECYCLER_VIEW
+                    if (state.count > 0) {
+                        viewFlipper.displayedChild = STATE_RECYCLER_VIEW
+                    } else {
+                        viewFlipper.displayedChild = STATE_TEXT_ERROR
+                        binding.textViewError.text = "Пусто"
+                        binding.buttonUpdate.visibility = View.GONE
+                    }
                 }
                 is State.Error -> {
                     viewFlipper.displayedChild = STATE_TEXT_ERROR
+                    binding.buttonUpdate.apply {
+                        visibility = View.VISIBLE
+                        setOnClickListener {
+                            viewModel.loadNotes(requireContext())
+                        }
+                    }
                     binding.textViewError.text = state.error.message
                 }
             }
         }
 
-
         toolbar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_search -> {
-//                    val searchView = it.actionView as SearchView
-//                    searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-//                        override fun onQueryTextSubmit(query: String?): Boolean {
-//                            adapter.filter.filter(query)
-//                            return true
-//                        }
-//
-//                        override fun onQueryTextChange(newText: String?): Boolean {
-//                            return true
-//                        }
-//
-//
-//                    })
+                    val searchItem: MenuItem = it as MenuItem
+                    (searchItem.actionView as SearchView).setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                        override fun onQueryTextSubmit(query: String): Boolean {
+                            adapter.filter(query)
+                            return false
+                        }
+
+                        override fun onQueryTextChange(newText: String): Boolean {
+                            adapter.filter(newText)
+                            return false
+                        }
+                    })
                     true
                 }
                 R.id.menu_archive -> {
@@ -131,6 +134,39 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
                 NoteFragment.newInstance(note)
             )
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+//        val searchItem: MenuItem = menu.findItem(R.id.menu_search) as MenuItem
+//        (searchItem.actionView as SearchView).setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+//            override fun onQueryTextSubmit(query: String): Boolean {
+//                Toast.makeText(requireContext(), "Поиск", Toast.LENGTH_SHORT).show()
+//                return false
+//            }
+//
+//            override fun onQueryTextChange(newText: String): Boolean {
+//                Toast.makeText(requireContext(), newText, Toast.LENGTH_SHORT).show()
+//                return false
+//            }
+//        })
+
+
+//        val sv =
+//            sv.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+//                override fun onQueryTextSubmit(s: String): Boolean {
+//                    return false
+//                }
+//
+//                override fun onQueryTextChange(s: String): Boolean {
+//                    //when the text change
+//                    search(s)
+//                    return false
+//                }
+//            })
+//        sv.setOnCloseListener { //when canceling the search
+//            false
+//        }
     }
 
     override fun onAttach(context: Context) {

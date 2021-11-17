@@ -21,6 +21,6 @@ interface NoteDao {
     @Delete
     suspend fun deleteNote(note: NoteEntity)
 
-    @Query("SELECT * FROM $TABLE_NAME")
+    @Query("SELECT * FROM $TABLE_NAME WHERE is_archive = false")
     fun getNotes(): Flow<List<NoteEntity>>
 }

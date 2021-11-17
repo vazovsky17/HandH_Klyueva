@@ -1,9 +1,12 @@
 package app.vazovsky.lesson_8_klyueva.presentation.notelist
 
+import android.content.Context
+import android.content.DialogInterface
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import app.vazovsky.lesson_8_klyueva.R
 import app.vazovsky.lesson_8_klyueva.data.db.entity.NoteEntity
@@ -13,9 +16,9 @@ import app.vazovsky.lesson_8_klyueva.presentation.notelist.NoteListFragment.Comp
 import by.kirich1409.viewbindingdelegate.viewBinding
 
 class NoteItemViewHolder(
-    parent: ViewGroup,
+    val parent: ViewGroup,
     private val onItemClick: (NoteEntity) -> Unit,
-    private val onItemLongClick: (NoteEntity, Int) -> Unit
+    private val onItemLongClick: (NoteEntity, Int) -> Unit,
 ) : RecyclerView.ViewHolder(
     LayoutInflater.from(parent.context).inflate(R.layout.note_item, parent, false)
 ) {
@@ -24,19 +27,28 @@ class NoteItemViewHolder(
         itemView.setOnClickListener {
             onItemClick(note)
         }
+
         itemView.setOnLongClickListener {
-            itemView.setOnCreateContextMenuListener { menu, v, menuInfo ->
-                val archive = menu.add(Menu.NONE, CONTEXT_ARCHIVE, Menu.NONE, "Архивировать")
-                val delete = menu.add(Menu.NONE, CONTEXT_DELETE, Menu.NONE, "Удалить")
-                archive.setOnMenuItemClickListener {
-                    onItemLongClick(note, CONTEXT_ARCHIVE)
-                    true
+            val alertDialog: AlertDialog = itemView.let {
+                val builder = AlertDialog.Builder(parent.context)
+                builder.apply {
+                    setPositiveButton(
+                        R.string.alert_archive_title
+                    ) { _, _ ->
+                        onItemLongClick(note, CONTEXT_ARCHIVE)
+                    }
+                    setNeutralButton(
+                        R.string.alert_delete_title
+                    ) { _, _ ->
+                        onItemLongClick(note, CONTEXT_DELETE)
+                    }
+                    setNegativeButton(R.string.alert_cancel_title, DialogInterface.OnClickListener { dialog, id ->
+
+                    })
                 }
-                delete.setOnMenuItemClickListener {
-                    onItemLongClick(note, CONTEXT_DELETE)
-                    true
-                }
+                builder.create()
             }
+            alertDialog.show()
             true
         }
         binding.textViewNoteTitle.text = note.title

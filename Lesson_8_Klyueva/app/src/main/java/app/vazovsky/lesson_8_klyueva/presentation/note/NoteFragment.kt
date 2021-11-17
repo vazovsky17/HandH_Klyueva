@@ -43,8 +43,14 @@ class NoteFragment : Fragment(R.layout.fragment_note) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        editTextNoteTitle.setText(note.title)
-        editTextNoteContent.setText(note.content)
+        editTextNoteTitle.apply {
+            setText(note.title)
+            setTextColor(if (note.color != Color.WHITE) Color.WHITE else Color.BLACK)
+        }
+        editTextNoteContent.apply {
+            setText(note.content)
+            setTextColor(if (note.color != Color.WHITE) Color.WHITE else Color.GRAY)
+        }
         noteBackground.setBackgroundColor(note.color)
 
         toolbar.setNavigationOnClickListener {
@@ -56,6 +62,7 @@ class NoteFragment : Fragment(R.layout.fragment_note) {
         toolbar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_color -> {
+
                     note.color = Color.BLUE
                     noteBackground.setBackgroundColor(note.color)
                     true

@@ -11,6 +11,8 @@ import app.vazovsky.lesson_8_klyueva.data.db.entity.NoteEntity
 import app.vazovsky.lesson_8_klyueva.data.model.State
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.count
+import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 
 class NoteListViewModel : ViewModel() {
@@ -24,8 +26,9 @@ class NoteListViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 _stateLiveData.postValue(State.Loading())
-                val notes = DatabaseClient.getInstance(context).getNotes()
-                _stateLiveData.postValue(State.Data(notes))
+                DatabaseClient.getInstance(context).getNotes().collect {
+                    _stateLiveData.postValue(State.Data(it, it.size))
+                }
             } catch (e: Exception) {
                 _stateLiveData.postValue(State.Error(e))
             }
