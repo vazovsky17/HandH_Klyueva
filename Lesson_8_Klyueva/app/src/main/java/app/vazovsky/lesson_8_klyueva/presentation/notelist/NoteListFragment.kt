@@ -18,6 +18,8 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import android.widget.SearchView
 import app.vazovsky.lesson_8_klyueva.R
 import android.view.MenuItem
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 
 
 class NoteListFragment : Fragment(R.layout.fragment_note_list) {
@@ -69,7 +71,7 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
             }
         }
         recyclerView.adapter = adapter
-        recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
+        recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         viewModel.notesLiveData.observe(viewLifecycleOwner) { notes ->
             adapter.setItems(notes)
         }
@@ -134,39 +136,6 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
                 NoteFragment.newInstance(note)
             )
         }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-//        val searchItem: MenuItem = menu.findItem(R.id.menu_search) as MenuItem
-//        (searchItem.actionView as SearchView).setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-//            override fun onQueryTextSubmit(query: String): Boolean {
-//                Toast.makeText(requireContext(), "Поиск", Toast.LENGTH_SHORT).show()
-//                return false
-//            }
-//
-//            override fun onQueryTextChange(newText: String): Boolean {
-//                Toast.makeText(requireContext(), newText, Toast.LENGTH_SHORT).show()
-//                return false
-//            }
-//        })
-
-
-//        val sv =
-//            sv.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-//                override fun onQueryTextSubmit(s: String): Boolean {
-//                    return false
-//                }
-//
-//                override fun onQueryTextChange(s: String): Boolean {
-//                    //when the text change
-//                    search(s)
-//                    return false
-//                }
-//            })
-//        sv.setOnCloseListener { //when canceling the search
-//            false
-//        }
     }
 
     override fun onAttach(context: Context) {

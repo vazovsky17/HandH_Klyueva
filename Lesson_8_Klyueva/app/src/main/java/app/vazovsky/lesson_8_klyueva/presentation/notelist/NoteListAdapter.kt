@@ -4,29 +4,30 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.vazovsky.lesson_8_klyueva.data.db.entity.NoteEntity
 
-class NoteListAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class NoteListAdapter() : RecyclerView.Adapter<NoteItemViewHolder>() {
 
     private val items = mutableListOf<NoteEntity>()
+    private val copyItems = mutableSetOf<NoteEntity>()
+
+    lateinit var onItemClick: (NoteEntity) -> Unit
+    lateinit var onItemLongClick: (NoteEntity, Int) -> Unit
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteItemViewHolder {
+        return NoteItemViewHolder(parent, onItemClick, onItemLongClick)
+    }
+
+    override fun onBindViewHolder(holder: NoteItemViewHolder, position: Int) {
+        holder.bind(items[position])
+    }
+
     override fun getItemCount() = items.size
+
     fun setItems(items: List<NoteEntity>) {
         this.items.apply {
             clear()
             addAll(items)
         }
         notifyDataSetChanged()
-    }
-
-    private val copyItems = mutableSetOf<NoteEntity>()
-
-    lateinit var onItemClick: (NoteEntity) -> Unit
-    lateinit var onItemLongClick: (NoteEntity, Int) -> Unit
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return NoteItemViewHolder(parent, onItemClick, onItemLongClick)
-    }
-
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        (holder as NoteItemViewHolder).bind(items[position])
     }
 
     fun filter(queryText: String?) {
@@ -36,7 +37,7 @@ class NoteListAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             items.addAll(copyItems)
         } else {
             for (note in copyItems) {
-                if (note.title.lowercase().contains(queryText.lowercase())) {
+                if (note.title.contains(queryText, true) or note.content.contains(queryText, true)) {
                     items.add(note)
                 }
             }
