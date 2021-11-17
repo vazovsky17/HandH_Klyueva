@@ -47,6 +47,13 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
     private val viewFlipper get() = binding.viewFlipper
     private val adapter = NoteListAdapter()
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is FragmentListener) {
+            fragmentListener = context
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.loadNotes(requireContext())
@@ -56,97 +63,106 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter.onItemClick = { note ->
-            fragmentListener?.goToFragment(NoteFragment.newInstance(note))
-        }
-        adapter.onItemLongClick = { note, action ->
-            when (action) {
-                CONTEXT_ARCHIVE -> {
-                    note.isArchive = !note.isArchive
-                    viewModel.insert(requireContext(), note)
-                }
-                CONTEXT_DELETE -> {
-                    viewModel.delete(requireContext(), note)
-                }
-            }
-        }
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        configureRecyclerView()
+
         viewModel.notesLiveData.observe(viewLifecycleOwner) { notes ->
             adapter.setItems(notes)
         }
         viewModel.stateLiveData.observe(viewLifecycleOwner) { state ->
             when (state) {
-                is State.Loading -> {
-                    viewFlipper.displayedChild = STATE_PROGRESS_BAR
-                }
-                is State.Data -> {
-                    if (state.count > 0) {
-                        viewFlipper.displayedChild = STATE_RECYCLER_VIEW
-                    } else {
-                        viewFlipper.displayedChild = STATE_TEXT_ERROR
-                        binding.textViewError.text = "Пусто"
-                        binding.buttonUpdate.visibility = View.GONE
-                    }
-                }
-                is State.Error -> {
-                    viewFlipper.displayedChild = STATE_TEXT_ERROR
-                    binding.buttonUpdate.apply {
-                        visibility = View.VISIBLE
-                        setOnClickListener {
-                            viewModel.loadNotes(requireContext())
-                        }
-                    }
-                    binding.textViewError.text = state.error.message
-                }
+                is State.Loading -> setStateLoading()
+                is State.Data -> setStateData(state)
+                is State.Error -> setStateError(state.error)
             }
         }
 
         toolbar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_search -> {
-                    val searchItem: MenuItem = it as MenuItem
-                    (searchItem.actionView as SearchView).setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-                        override fun onQueryTextSubmit(query: String): Boolean {
-                            adapter.filter(query)
-                            return false
-                        }
-
-                        override fun onQueryTextChange(newText: String): Boolean {
-                            adapter.filter(newText)
-                            return false
-                        }
-                    })
+                    searchNotes(it.actionView as SearchView)
                     true
                 }
                 R.id.menu_archive -> {
                     Toast.makeText(requireContext(), "Архив", Toast.LENGTH_SHORT).show()
-
                     true
                 }
                 else -> false
             }
         }
-        fab.setOnClickListener {
-            val note = NoteEntity(
-                title = "",
-                content = ""
-            )
-            fragmentListener?.goToFragment(
-                NoteFragment.newInstance(note)
-            )
-        }
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is FragmentListener) {
-            fragmentListener = context
-        }
+        fab.setOnClickListener { createNewNote() }
     }
 
     override fun onDetach() {
         fragmentListener = null
         super.onDetach()
+    }
+
+    private fun configureRecyclerView() {
+        adapter.onItemClick = { note ->
+            fragmentListener?.goToFragment(NoteFragment.newInstance(note))
+        }
+        adapter.onItemLongClick = { note, action ->
+            when (action) {
+                CONTEXT_ARCHIVE -> archiveNote(note)
+                CONTEXT_DELETE -> deleteNote(note)
+            }
+        }
+
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+
+    }
+
+    private fun setStateLoading() {
+        viewFlipper.displayedChild = STATE_PROGRESS_BAR
+    }
+
+    private fun setStateData(state: State.Data) {
+        if (state.count > 0) {
+            viewFlipper.displayedChild = STATE_RECYCLER_VIEW
+        } else {
+            viewFlipper.displayedChild = STATE_TEXT_ERROR
+            binding.textViewError.text = "Пусто"
+            binding.buttonUpdate.visibility = View.GONE
+        }
+    }
+
+    private fun setStateError(error: Exception) {
+        viewFlipper.displayedChild = STATE_TEXT_ERROR
+        binding.buttonUpdate.apply {
+            visibility = View.VISIBLE
+            setOnClickListener {
+                viewModel.loadNotes(requireContext())
+            }
+        }
+        binding.textViewError.text = error.message
+    }
+
+    private fun searchNotes(searchView: SearchView) {
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                adapter.filter(query)
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                adapter.filter(newText)
+                return false
+            }
+        })
+    }
+
+    private fun archiveNote(note: NoteEntity) {
+        note.isArchive = !note.isArchive
+        viewModel.insert(requireContext(), note)
+    }
+
+    private fun deleteNote(note: NoteEntity) {
+        viewModel.delete(requireContext(), note)
+    }
+
+    private fun createNewNote() {
+        val note = NoteEntity(title = "", content = "")
+        fragmentListener?.goToFragment(NoteFragment.newInstance(note))
     }
 }

@@ -43,35 +43,8 @@ class NoteFragment : Fragment(R.layout.fragment_note) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        editTextNoteTitle.apply {
-            setText(note.title)
-            setTextColor(if (note.color != Color.WHITE) Color.WHITE else Color.BLACK)
-        }
-        editTextNoteContent.apply {
-            setText(note.content)
-            setTextColor(if (note.color != Color.WHITE) Color.WHITE else Color.GRAY)
-        }
-        noteBackground.setBackgroundColor(note.color)
-
-        toolbar.setNavigationOnClickListener {
-            note.title = editTextNoteTitle.text.toString()
-            note.content = editTextNoteContent.text.toString()
-            viewModel.insert(requireContext(), note)
-            fragmentListener?.goBack()
-        }
-        toolbar.setOnMenuItemClickListener {
-            when (it.itemId) {
-                R.id.menu_color -> {
-
-                    note.color = Color.BLUE
-                    noteBackground.setBackgroundColor(note.color)
-                    true
-                }
-                else -> {
-                    false
-                }
-            }
-        }
+        configureNote()
+        toolbarClick()
     }
 
 
@@ -85,5 +58,38 @@ class NoteFragment : Fragment(R.layout.fragment_note) {
     override fun onDetach() {
         fragmentListener = null
         super.onDetach()
+    }
+
+    private fun configureNote() {
+        editTextNoteTitle.apply {
+            setText(note.title)
+            setTextColor(if (note.color != Color.WHITE) Color.WHITE else Color.BLACK)
+        }
+        editTextNoteContent.apply {
+            setText(note.content)
+            setTextColor(if (note.color != Color.WHITE) Color.WHITE else Color.GRAY)
+        }
+        noteBackground.setBackgroundColor(note.color)
+    }
+
+    private fun toolbarClick() {
+        toolbar.setNavigationOnClickListener {
+            note.title = editTextNoteTitle.text.toString()
+            note.content = editTextNoteContent.text.toString()
+            viewModel.insert(requireContext(), note)
+            fragmentListener?.goBack()
+        }
+        toolbar.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.menu_color -> {
+                    note.color = Color.BLUE
+                    noteBackground.setBackgroundColor(note.color)
+                    true
+                }
+                else -> {
+                    false
+                }
+            }
+        }
     }
 }
