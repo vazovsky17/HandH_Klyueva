@@ -30,7 +30,6 @@ class WeatherService : Service() {
         weatherJob = CoroutineScope(Dispatchers.IO).launch {
             while (true) {
                 val weatherResponse = WeatherApi.apiService.getWeather()
-                Log.d("LOL", weatherResponse.toString())
                 setWeather(weatherResponse)
                 delay(60000)
             }

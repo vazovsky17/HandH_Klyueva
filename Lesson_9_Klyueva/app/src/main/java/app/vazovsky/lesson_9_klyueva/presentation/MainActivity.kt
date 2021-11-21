@@ -1,11 +1,18 @@
 package app.vazovsky.lesson_9_klyueva.presentation
 
+import android.content.BroadcastReceiver
 import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.content.ServiceConnection
 import android.os.Bundle
 import android.os.IBinder
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import app.vazovsky.lesson_9_klyueva.DownloadService
+import app.vazovsky.lesson_9_klyueva.DownloadService.Companion.DATA_PROGRESS
+import app.vazovsky.lesson_9_klyueva.DownloadService.Companion.EXTRA_URL
 import app.vazovsky.lesson_9_klyueva.R
 import app.vazovsky.lesson_9_klyueva.ServiceCallbacks
 import app.vazovsky.lesson_9_klyueva.WeatherService
@@ -16,6 +23,9 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 
 class MainActivity : AppCompatActivity(), ServiceCallbacks {
 
+    companion object {
+        const val ACTION = "app.vazovsky.lesson_9_klyueva.TEST_ACTION"
+    }
 
     private val binding by viewBinding(ActivityMainBinding::bind)
     private var bound = false
@@ -37,6 +47,21 @@ class MainActivity : AppCompatActivity(), ServiceCallbacks {
     private var weatherService: WeatherService? = null
 
     private val downloadIntent by lazy { DownloadService.createStartIntent(this) }
+    private val progressBar by lazy { binding.progressBar }
+    private val downloadReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            val progress = intent?.getIntExtra(DATA_PROGRESS, 0) ?: 0
+            progressBar.progress = progress
+
+            if (progress == 100) {
+                progressBar.visibility = View.GONE
+            } else {
+                progressBar.visibility = View.VISIBLE
+            }
+
+        }
+
+    }
 
     override fun onStart() {
         super.onStart()
@@ -47,9 +72,12 @@ class MainActivity : AppCompatActivity(), ServiceCallbacks {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         binding.buttonStartService.setOnClickListener {
+            registerReceiver(downloadReceiver, IntentFilter(ACTION))
+            progressBar.visibility = View.GONE
+            downloadIntent.apply {
+                putExtra(EXTRA_URL, "https://wdfiles.ru/2833a2")
+            }
             startService(downloadIntent)
-//            startService()
-
         }
     }
 
@@ -77,7 +105,4 @@ class MainActivity : AppCompatActivity(), ServiceCallbacks {
         }
     }
 
-    override fun setImage() {
-
-    }
 }
