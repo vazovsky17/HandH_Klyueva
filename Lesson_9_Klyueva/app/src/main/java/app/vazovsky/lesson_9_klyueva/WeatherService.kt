@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Binder
 import android.os.IBinder
-import android.util.Log
 import app.vazovsky.lesson_9_klyueva.data.model.WeatherResponse
 import app.vazovsky.lesson_9_klyueva.data.remote.weather.WeatherApi
 import kotlinx.coroutines.CoroutineScope
@@ -61,7 +60,6 @@ class WeatherService : Service() {
     }
 
     private fun setWeather(weatherResponse: WeatherResponse) {
-        Log.d("LOL", "setWeather")
         serviceCallbacks?.setWeather(weatherResponse)
     }
 }

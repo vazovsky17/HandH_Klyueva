@@ -27,9 +27,11 @@
 
     <ProgressBar
         android:id="@+id/progressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
         android:layout_margin="16dp"
+        android:max="100"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/buttonStartService"
         app:layout_constraintEnd_toEndOf="parent"
