@@ -29,9 +29,6 @@ class DownloadService : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         Thread {
             val downloadPath = downloadArchive(intent)
-            if (downloadPath == "") {
-                Log.d("LOL", "Все хуйня")
-            }
             val unzippingPath = unzip(downloadPath)
 
             val intentImage = Intent(MainActivity.ACTION_IMAGE)
