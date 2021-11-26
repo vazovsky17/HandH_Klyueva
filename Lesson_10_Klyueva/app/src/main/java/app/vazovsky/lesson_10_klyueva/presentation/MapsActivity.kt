@@ -54,18 +54,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private val textViewError by lazy { binding.textViewError }
     private val buttonUpdate by lazy { binding.buttonUpdate }
 
-    // BottomSheet
-    private val bottomSheet by lazy { binding.bottomSheet }
-    private val textViewBridgeTitle by lazy { binding.textViewBridgeTitle }
-    private val textViewBridgeDivorce by lazy { binding.textViewBridgeDivorce }
-    private val textViewBridgeDescription by lazy { binding.textViewBridgeDescription }
-    private val imageViewBridgeState by lazy { binding.imageViewBridgeState }
-    private val imageViewBridgePicture by lazy { binding.imageViewBridgePicture }
-
     //Карты, мосты, маркеры
     private var userMarker: Marker? = null
     private var map: GoogleMap? = null
-    private var bridges: List<Bridge> = emptyList()
     private var markers: Map<Marker, Bridge> = emptyMap()
 
     //Геолокация
@@ -100,7 +91,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         viewModel.stateLiveData.observe(this) { state ->
             when (state) {
                 is State.Loading -> setStateLoading()
-                is State.Data -> setStateData(state.data)
+                is State.Data -> trySetData()
                 is State.Error -> setStateError(state.error)
             }
         }
@@ -118,7 +109,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
-    private fun configureBottomSheet(bridge: Bridge) {
+    /**
+     * Настройка BottomSheet
+     */
+    private fun configureBottomSheet(bridge: Bridge) = with(binding) {
         val bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet)
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
         bottomSheetBehavior.isHideable = false
@@ -127,14 +121,24 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         textViewBridgeDivorce.text = bridge.getDivorceString()
         textViewBridgeDescription.text = bridge.description
         imageViewBridgeState.setImageResource(bridge.getState())
-        Glide.with(this)
+        Glide.with(this@MapsActivity)
             .asBitmap()
             .load(if (bridge.getState() == STATE_LATE) bridge.photoCloseUrl else bridge.photoOpenUrl)
             .centerCrop()
             .into(imageViewBridgePicture)
     }
 
-    //Настройка состояний
+    /**
+     * Настройка состояний загрузки мостов
+     */
+    private fun trySetData() {
+        val data = (viewModel.stateLiveData.value as? State.Data)?.data
+        val map = map
+        if (data != null && map != null) {
+            setStateData(data)
+        }
+    }
+
     private fun setStateLoading() {
         viewFlipper.displayedChild = STATE_LOADING
     }
@@ -146,8 +150,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             buttonUpdate.setOnClickListener { viewModel.loadBridges() }
         } else {
             viewFlipper.displayedChild = STATE_MAP
-            bridges = data
-            configureMarkers()
+            configureMarkers(data)
             configureMoveCameraBounds()
         }
     }
@@ -158,19 +161,24 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         buttonUpdate.setOnClickListener { viewModel.loadBridges() }
     }
 
-    //Настройка карт
+    /**
+     *
+     */
     private fun configureMapFragment() {
         val mapFragment =
             supportFragmentManager.findFragmentById(app.vazovsky.lesson_10_klyueva.R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
     }
 
-    private fun configureMarkers() {
+    private fun configureMarkers(bridges: List<Bridge>) {
         markers = bridges.map { bridge ->
             bridge.toMarker()!! to bridge
         }.toMap()
     }
 
+    /**
+    Настройка первоначальной камеры карты
+     */
     private fun configureMoveCameraBounds() {
         val bounds = LatLngBounds.builder()
         val width = resources.displayMetrics.widthPixels
@@ -180,7 +188,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         map?.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds.build(), width, height, padding))
     }
 
-    //Преобразование Моста в Маркер
+    /**
+    Преобразование моста в маркер
+     */
     private fun Bridge.toMarker(): Marker? {
         return map?.addMarker(
             MarkerOptions()
@@ -191,6 +201,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         )
     }
 
+    /**
+    Преобразование векторного изображения в BitmapDescriptor
+     */
+
     private fun bitmapDescriptorFromVector(context: Context, vectorResId: Int): BitmapDescriptor? {
         return ContextCompat.getDrawable(context, vectorResId)?.run {
             setBounds(0, 0, intrinsicWidth, intrinsicHeight)
@@ -200,8 +214,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
-
-    //Геолокация
     private fun enableLocation() {
         when {
             ContextCompat.checkSelfPermission(
