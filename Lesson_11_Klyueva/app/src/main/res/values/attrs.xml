@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="StatView">
+        <attr name="stat_columnColor" format="reference|color" />
+        <attr name="stat_valueColor" format="reference|color" />
+        <attr name="stat_descColor" format="reference|color" />
+    </declare-styleable>
+</resources>
