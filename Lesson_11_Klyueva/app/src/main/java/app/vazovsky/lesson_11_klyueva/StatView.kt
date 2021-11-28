@@ -1,5 +1,6 @@
 package app.vazovsky.lesson_11_klyueva
 
+import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
@@ -7,7 +8,6 @@ import android.graphics.CornerPathEffect
 import android.graphics.Paint
 import android.graphics.Path
 import android.graphics.Rect
-import android.graphics.Typeface
 import android.util.AttributeSet
 import android.util.Log
 import android.util.TypedValue
@@ -34,6 +34,8 @@ class StatView : View {
 
     private var columns = emptyList<Column>()
     private var maxColumn = 0
+    private var valueAnim = 1F
+    private var animation: ValueAnimator? = null
 
     private val columnPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = columnColor
@@ -95,18 +97,7 @@ class StatView : View {
         drawStatistic(canvas)
     }
 
-    override fun onTouchEvent(event: MotionEvent?): Boolean {
-        return when (event?.action) {
-            MotionEvent.ACTION_DOWN -> true
-            MotionEvent.ACTION_MOVE -> {
-                startMyAnimation()
-                true
-            }
-            else -> false
-        }
-    }
-
-    private fun drawStatistic(canvas: Canvas, zeroValues: Boolean = false) {
+    private fun drawStatistic(canvas: Canvas) {
         val realWidthGraph = width - paddingStart - paddingEnd
         val size = if (columns.size <= 9) columns.size else 9
         val widthColumn = realWidthGraph / size
@@ -124,14 +115,13 @@ class StatView : View {
                 startX = startX,
                 endX = startX + widthColumn,
                 startY = startY + valueTextBound.height(),
-                endY = endY - titleTextBound.height(),
-                value = if (zeroValues) 0F else columns[i].value.toFloat()
+                endY = endY - titleTextBound.height()
             )
             startX += widthColumn
         }
     }
 
-    private fun drawColumn(canvas: Canvas, column: Column, startX: Float, endX: Float, startY: Float, endY: Float, value: Float) {
+    private fun drawColumn(canvas: Canvas, column: Column, startX: Float, endX: Float, startY: Float, endY: Float) {
         val marginInPixels = TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP,
             4F, resources.displayMetrics
@@ -142,9 +132,9 @@ class StatView : View {
         )
 
         val centerX = startX + (endX - startX) / 2
-        val realValue = if (value == 0F) 2F else value
-        val heightColumn = (endY - startY) * realValue / maxColumn
+        val heightColumn = (endY - startY) * column.value / maxColumn * valueAnim
         canvas.drawText(column.title, centerX, endY + titleTextBound.height(), titlePaint)
+
         val path = Path().apply {
             moveTo(centerX - halfWidthColumn, endY - marginInPixels)
             lineTo(centerX + halfWidthColumn, endY - marginInPixels)
@@ -162,6 +152,18 @@ class StatView : View {
     }
 
     fun startMyAnimation() {
-
+        if (animation != null) {
+            animation?.cancel()
+            animation = null
+        } else {
+            animation = ValueAnimator.ofFloat(0.2F, 1F).apply {
+                duration = 1000
+                addUpdateListener { animation ->
+                    valueAnim = animation.animatedValue as Float
+                    invalidate()
+                }
+                start()
+            }
+        }
     }
 }

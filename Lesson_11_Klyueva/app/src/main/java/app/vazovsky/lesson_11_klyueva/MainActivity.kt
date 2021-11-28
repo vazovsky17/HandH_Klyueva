@@ -2,6 +2,7 @@ package app.vazovsky.lesson_11_klyueva
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import app.vazovsky.lesson_11_klyueva.databinding.ActivityMainBinding
 import app.vazovsky.lesson_11_klyueva.model.Column
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -24,6 +25,12 @@ class MainActivity : AppCompatActivity() {
             Column("13.05", 46),
             Column("14.05", 46)
         )
-        binding.statView.setData(columns)
+        binding.statView.apply {
+            setData(columns)
+            setOnClickListener {
+                this.startMyAnimation()
+            }
+        }
+
     }
 }
