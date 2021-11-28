@@ -9,6 +9,7 @@ import android.graphics.Path
 import android.graphics.Rect
 import android.graphics.Typeface
 import android.util.AttributeSet
+import android.util.Log
 import android.util.TypedValue
 import android.view.MotionEvent
 import android.view.View
@@ -32,6 +33,7 @@ class StatView : View {
     private var tilteColor = Color.GRAY
 
     private var columns = emptyList<Column>()
+    private var maxColumn = 0
 
     private val columnPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = columnColor
@@ -104,58 +106,59 @@ class StatView : View {
         }
     }
 
-    private fun drawStatistic(canvas: Canvas) {
-        val maxColumn: Int = columns.maxByOrNull { it.value }?.value ?: 100
-        //запрет на использование более 9 столбцов
+    private fun drawStatistic(canvas: Canvas, zeroValues: Boolean = false) {
+        val realWidthGraph = width - paddingStart - paddingEnd
         val size = if (columns.size <= 9) columns.size else 9
-        val currentWidth = width - paddingStart - paddingEnd
-        val distance = currentWidth / size
+        val widthColumn = realWidthGraph / size
+
         var startX = paddingStart.toFloat()
+        var startY = paddingTop.toFloat()
+        val endY = (height - paddingBottom).toFloat()
 
         for (i in 1..size) {
-            drawColumn(canvas, columns[i - 1], startX to startX + distance, maxColumn)
-            startX += distance
+            valuePaint.getTextBounds(columns[i].value.toString(), 0, columns[i].value.toString().length, valueTextBound)
+            titlePaint.getTextBounds(columns[i].value.toString(), 0, columns[i].value.toString().length, titleTextBound)
+            drawColumn(
+                canvas = canvas,
+                column = columns[i - 1],
+                startX = startX,
+                endX = startX + widthColumn,
+                startY = startY + valueTextBound.height(),
+                endY = endY - titleTextBound.height(),
+                value = if (zeroValues) 0F else columns[i].value.toFloat()
+            )
+            startX += widthColumn
         }
     }
 
-    private fun drawColumn(canvas: Canvas, column: Column, distance: Pair<Float, Float>, maxColumn: Int) {
-        val startX = distance.first
-        val endX = distance.second
-        val centerX = startX + (endX - startX) / 2
-
-        valuePaint.getTextBounds(column.value.toString(), 0, column.value.toString().length, valueTextBound)
-        titlePaint.getTextBounds(column.value.toString(), 0, column.value.toString().length, titleTextBound)
-
+    private fun drawColumn(canvas: Canvas, column: Column, startX: Float, endX: Float, startY: Float, endY: Float, value: Float) {
         val marginInPixels = TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP,
-            8F, resources.displayMetrics
+            4F, resources.displayMetrics
         )
-
-        val currentStartY = paddingTop + valueTextBound.height()
-        val currentEndY = (height - paddingBottom - titleTextBound.height()).toFloat()
-        val currentMaxHeight = currentEndY - currentStartY
-        val currentColumnHeight = (currentMaxHeight * column.value) / maxColumn
-
-        canvas.drawText(column.value.toString(), centerX, currentEndY - currentColumnHeight, valuePaint)
-        canvas.drawText(column.title, centerX, currentEndY, titlePaint)
-
         val halfWidthColumn = TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP,
             2F, resources.displayMetrics
         )
 
+        val centerX = startX + (endX - startX) / 2
+        val realValue = if (value == 0F) 2F else value
+        val heightColumn = (endY - startY) * realValue / maxColumn
+        canvas.drawText(column.title, centerX, endY + titleTextBound.height(), titlePaint)
         val path = Path().apply {
-            moveTo(centerX - halfWidthColumn, currentEndY - currentColumnHeight + marginInPixels)
-            lineTo(centerX + halfWidthColumn, currentEndY - currentColumnHeight + marginInPixels)
-            lineTo(centerX + halfWidthColumn, currentEndY - titleTextBound.height() - marginInPixels)
-            lineTo(centerX - halfWidthColumn, currentEndY - titleTextBound.height() - marginInPixels)
+            moveTo(centerX - halfWidthColumn, endY - marginInPixels)
+            lineTo(centerX + halfWidthColumn, endY - marginInPixels)
+            lineTo(centerX + halfWidthColumn, endY - heightColumn)
+            lineTo(centerX - halfWidthColumn, endY - heightColumn)
             close()
         }
         canvas.drawPath(path, columnPaint)
+        canvas.drawText(column.value.toString(), centerX, endY - heightColumn - marginInPixels, valuePaint)
     }
 
     fun setData(data: List<Column>) {
         columns = data
+        maxColumn = columns.maxByOrNull { it.value }?.value ?: 100
     }
 
     fun startMyAnimation() {

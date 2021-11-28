@@ -13,16 +13,16 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         val columns = listOf(
             Column("04.05", 46),
-            Column("04.05", 30),
-            Column("04.05", 20),
-            Column("04.05", 60),
-            Column("04.05", 46),
-            Column("04.05", 46),
-            Column("04.05", 30),
-            Column("04.05", 20),
-            Column("04.05", 60),
-            Column("04.05", 46),
-            Column("04.05", 46)
+            Column("05.05", 30),
+            Column("06.05", 20),
+            Column("07.05", 60),
+            Column("08.05", 46),
+            Column("09.05", 46),
+            Column("10.05", 30),
+            Column("11.05", 20),
+            Column("12.05", 60),
+            Column("13.05", 46),
+            Column("14.05", 46)
         )
         binding.statView.setData(columns)
     }
