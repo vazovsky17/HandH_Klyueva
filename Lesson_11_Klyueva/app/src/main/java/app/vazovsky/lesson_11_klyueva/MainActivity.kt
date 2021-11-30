@@ -2,10 +2,11 @@ package app.vazovsky.lesson_11_klyueva
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import app.vazovsky.lesson_11_klyueva.databinding.ActivityMainBinding
-import app.vazovsky.lesson_11_klyueva.model.Column
+import app.vazovsky.lesson_11_klyueva.model.ColumnWithDate
 import by.kirich1409.viewbindingdelegate.viewBinding
+import java.text.SimpleDateFormat
+import java.util.Date
 
 class MainActivity : AppCompatActivity() {
     private val binding by viewBinding(ActivityMainBinding::bind)
@@ -13,18 +14,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val columns = listOf(
-            Column("04.05", 46),
-            Column("05.05", 30),
-            Column("06.05", 20),
-            Column("07.05", 60),
-            Column("08.05", 46),
-            Column("09.05", 46),
-            Column("10.05", 30),
-            Column("11.05", 20),
-            Column("12.05", 60),
-            Column("13.05", 46),
-            Column("14.05", 46)
-        )
+            ColumnWithDate(formatStringToDate("05/05/2021"), 46),
+            ColumnWithDate(formatStringToDate("06/05/2021"), 30),
+            ColumnWithDate(formatStringToDate("07/05/2021"), 20),
+            ColumnWithDate(formatStringToDate("08/05/2021"), 100),
+            ColumnWithDate(formatStringToDate("09/05/2021"), 74),
+            ColumnWithDate(formatStringToDate("10/05/2021"), 22),
+
+            )
         binding.statView.apply {
             setData(columns)
             setOnClickListener {
@@ -32,5 +29,13 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+    }
+
+    /**
+     * Форматирование строки в объект Date.
+     */
+    private fun formatStringToDate(str: String): Date {
+        val formatter = SimpleDateFormat("dd/MM/yyyy")
+        return formatter.parse(str)
     }
 }

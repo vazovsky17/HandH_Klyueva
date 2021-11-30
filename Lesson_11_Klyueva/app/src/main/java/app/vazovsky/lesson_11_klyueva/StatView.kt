@@ -1,19 +1,20 @@
 package app.vazovsky.lesson_11_klyueva
 
 import android.animation.ValueAnimator
+import android.annotation.SuppressLint
 import android.content.Context
+import android.content.res.TypedArray
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.CornerPathEffect
 import android.graphics.Paint
-import android.graphics.Path
 import android.graphics.Rect
+import android.graphics.RectF
 import android.util.AttributeSet
-import android.util.Log
 import android.util.TypedValue
-import android.view.MotionEvent
 import android.view.View
-import app.vazovsky.lesson_11_klyueva.model.Column
+import app.vazovsky.lesson_11_klyueva.model.ColumnWithDate
+import java.text.SimpleDateFormat
 
 class StatView : View {
     constructor(context: Context) : super(context) {
@@ -30,40 +31,40 @@ class StatView : View {
 
     private var columnColor = Color.YELLOW
     private var valueColor = Color.YELLOW
-    private var tilteColor = Color.GRAY
+    private var titleColor = Color.GRAY
 
     private var columns = emptyList<Column>()
     private var maxColumn = 0
-    private var valueAnim = 1F
+
+    private var valueAnim = 0F
     private var animation: ValueAnimator? = null
 
+    //Размеры
+    private val cornerInPixels = resources.getDimensionPixelSize(R.dimen.column_corners_radius).toFloat()
+    private val textSizeInPixels = TypedValue.applyDimension(
+        TypedValue.COMPLEX_UNIT_SP,
+        12F, resources.displayMetrics
+    )
+    private val marginInPixels = resources.getDimensionPixelSize(R.dimen.column_margin).toFloat()
+    private val halfWidthColumn = resources.getDimensionPixelSize(R.dimen.column_half_width).toFloat()
+
+    //Paints
     private val columnPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = columnColor
         style = Paint.Style.FILL_AND_STROKE
-        val cornerInPixels = TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP,
-            2F, resources.displayMetrics
-        )
         val cornerEffect = CornerPathEffect(cornerInPixels)
         pathEffect = cornerEffect
+        strokeWidth = halfWidthColumn
     }
     private val valuePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = valueColor
-        val sizeInPixels = TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_SP,
-            12F, resources.displayMetrics
-        )
-        textSize = sizeInPixels
+        textSize = textSizeInPixels
         textAlign = Paint.Align.CENTER
     }
     private val valueTextBound = Rect()
     private val titlePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = tilteColor
-        val sizeInPixels = TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_SP,
-            12F, resources.displayMetrics
-        )
-        textSize = sizeInPixels
+        color = titleColor
+        textSize = textSizeInPixels
         textAlign = Paint.Align.CENTER
     }
     private val titleTextBound = Rect()
@@ -76,9 +77,7 @@ class StatView : View {
             0
         )
         try {
-            columnColor = a.getColor(R.styleable.StatView_stat_columnColor, Color.YELLOW)
-            valueColor = a.getColor(R.styleable.StatView_stat_valueColor, Color.YELLOW)
-            tilteColor = a.getColor(R.styleable.StatView_stat_descColor, Color.GRAY)
+            setColors(a)
         } finally {
             a.recycle()
         }
@@ -88,7 +87,6 @@ class StatView : View {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         val height = this.measuredHeight;
         val width = this.measuredWidth;
-
         setMeasuredDimension(width, height);
     }
 
@@ -97,21 +95,30 @@ class StatView : View {
         drawStatistic(canvas)
     }
 
+    private fun setColors(a: TypedArray) {
+        columnColor = a.getColor(R.styleable.StatView_stat_columnColor, Color.YELLOW)
+        columnPaint.color = columnColor
+        valueColor = a.getColor(R.styleable.StatView_stat_valueColor, Color.YELLOW)
+        valuePaint.color = valueColor
+        titleColor = a.getColor(R.styleable.StatView_stat_descColor, Color.GRAY)
+        titlePaint.color = titleColor
+    }
+
     private fun drawStatistic(canvas: Canvas) {
         val realWidthGraph = width - paddingStart - paddingEnd
         val size = if (columns.size <= 9) columns.size else 9
         val widthColumn = realWidthGraph / size
 
         var startX = paddingStart.toFloat()
-        var startY = paddingTop.toFloat()
+        val startY = paddingTop.toFloat()
         val endY = (height - paddingBottom).toFloat()
 
-        for (i in 1..size) {
+        for (i in 0 until size) {
             valuePaint.getTextBounds(columns[i].value.toString(), 0, columns[i].value.toString().length, valueTextBound)
             titlePaint.getTextBounds(columns[i].value.toString(), 0, columns[i].value.toString().length, titleTextBound)
             drawColumn(
                 canvas = canvas,
-                column = columns[i - 1],
+                column = columns[i],
                 startX = startX,
                 endX = startX + widthColumn,
                 startY = startY + valueTextBound.height(),
@@ -122,48 +129,44 @@ class StatView : View {
     }
 
     private fun drawColumn(canvas: Canvas, column: Column, startX: Float, endX: Float, startY: Float, endY: Float) {
-        val marginInPixels = TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP,
-            4F, resources.displayMetrics
-        )
-        val halfWidthColumn = TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP,
-            2F, resources.displayMetrics
-        )
-
         val centerX = startX + (endX - startX) / 2
-        val heightColumn = (endY - startY) * column.value / maxColumn * valueAnim
-        canvas.drawText(column.title, centerX, endY + titleTextBound.height(), titlePaint)
+        val heightColumn =
+            if (valueAnim in 0F..0.1F) halfWidthColumn * 2 else (endY - startY) * column.value / maxColumn * valueAnim
+        canvas.drawText(column.date, centerX, endY + titleTextBound.height(), titlePaint)
 
-        val path = Path().apply {
-            moveTo(centerX - halfWidthColumn, endY - marginInPixels)
-            lineTo(centerX + halfWidthColumn, endY - marginInPixels)
-            lineTo(centerX + halfWidthColumn, endY - heightColumn)
-            lineTo(centerX - halfWidthColumn, endY - heightColumn)
-            close()
-        }
-        canvas.drawPath(path, columnPaint)
-        canvas.drawText(column.value.toString(), centerX, endY - heightColumn - marginInPixels, valuePaint)
+        val rect = RectF()
+        rect.set(
+            centerX - halfWidthColumn,
+            endY - heightColumn - marginInPixels,
+            centerX + halfWidthColumn,
+            endY - marginInPixels
+        )
+        canvas.drawRoundRect(rect, 0F, 50F, columnPaint)
+        canvas.drawText(column.value.toString(), centerX, endY - heightColumn - marginInPixels * 2, valuePaint)
     }
 
-    fun setData(data: List<Column>) {
-        columns = data
+    fun setData(data: List<ColumnWithDate>) {
+        columns = data.map {
+            val format = SimpleDateFormat("dd.MM").format(it.date)
+            Column(format, it.value)
+        }
         maxColumn = columns.maxByOrNull { it.value }?.value ?: 100
     }
 
     fun startMyAnimation() {
-        if (animation != null) {
-            animation?.cancel()
-            animation = null
-        } else {
-            animation = ValueAnimator.ofFloat(0.2F, 1F).apply {
-                duration = 1000
-                addUpdateListener { animation ->
-                    valueAnim = animation.animatedValue as Float
-                    invalidate()
-                }
-                start()
+        animation?.cancel()
+        animation = ValueAnimator.ofFloat(0F, 1F).apply {
+            duration = 1000
+            addUpdateListener { animation ->
+                valueAnim = animation.animatedValue as Float
+                invalidate()
             }
+            start()
         }
     }
+
+    data class Column(
+        val date: String,
+        val value: Int
+    )
 }

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="standard_padding">16dp</dimen>
+    <dimen name="column_margin">8dp</dimen>
+    <dimen name="column_corners_radius">8dp</dimen>
+    <dimen name="column_half_width">2dp</dimen>
+</resources>
