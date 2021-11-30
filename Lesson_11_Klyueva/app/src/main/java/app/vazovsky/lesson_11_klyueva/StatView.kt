@@ -134,14 +134,15 @@ class StatView : View {
             if (valueAnim in 0F..0.1F) halfWidthColumn * 2 else (endY - startY) * column.value / maxColumn * valueAnim
         canvas.drawText(column.date, centerX, endY + titleTextBound.height(), titlePaint)
 
-        val rect = RectF()
-        rect.set(
+        canvas.drawRoundRect(
             centerX - halfWidthColumn,
             endY - heightColumn - marginInPixels,
             centerX + halfWidthColumn,
-            endY - marginInPixels
+            endY - marginInPixels,
+            0F,
+            100F,
+            columnPaint
         )
-        canvas.drawRoundRect(rect, 0F, 50F, columnPaint)
         canvas.drawText(column.value.toString(), centerX, endY - heightColumn - marginInPixels * 2, valuePaint)
     }
 

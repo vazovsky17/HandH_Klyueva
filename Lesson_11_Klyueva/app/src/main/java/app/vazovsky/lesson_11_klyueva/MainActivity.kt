@@ -20,8 +20,13 @@ class MainActivity : AppCompatActivity() {
             ColumnWithDate(formatStringToDate("08/05/2021"), 100),
             ColumnWithDate(formatStringToDate("09/05/2021"), 74),
             ColumnWithDate(formatStringToDate("10/05/2021"), 22),
-
-            )
+            ColumnWithDate(formatStringToDate("05/05/2021"), 46),
+            ColumnWithDate(formatStringToDate("06/05/2021"), 30),
+            ColumnWithDate(formatStringToDate("07/05/2021"), 20),
+            ColumnWithDate(formatStringToDate("08/05/2021"), 100),
+            ColumnWithDate(formatStringToDate("09/05/2021"), 74),
+            ColumnWithDate(formatStringToDate("10/05/2021"), 22),
+        )
         binding.statView.apply {
             setData(columns)
             setOnClickListener {
