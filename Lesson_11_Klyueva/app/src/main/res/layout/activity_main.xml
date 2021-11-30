@@ -33,7 +33,7 @@
     <app.vazovsky.lesson_11_klyueva.StatView
         android:id="@+id/statView"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="100dp"
         android:padding="@dimen/standard_padding"
         app:stat_columnColor="@color/purple_200"
         app:stat_descColor="@color/teal_200"
