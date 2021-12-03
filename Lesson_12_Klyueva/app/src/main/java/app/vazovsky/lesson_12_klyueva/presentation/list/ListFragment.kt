@@ -26,16 +26,8 @@ class ListFragment : BaseFragment(R.layout.fragment_list) {
     private val binding by viewBinding(FragmentListBinding::bind)
     private val viewModel: ListViewModel by appViewModels()
 
-    companion object {
-        const val TAG = "LOL"
-    }
-
-    private val recyclerView: RecyclerView
-        get() = binding.recyclerView
-    private val customViewFlipper: CustomViewFlipper
-        get() = binding.customViewFlipper
-    private val toolbar: Toolbar
-        get() = binding.toolbar
+    private val recyclerView get() = binding.recyclerView
+    private val customViewFlipper get() = binding.customViewFlipper
     private val adapter = ListAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,11 +35,10 @@ class ListFragment : BaseFragment(R.layout.fragment_list) {
         viewModel.loadBridges()
     }
 
-    @Suppress("UNCHECKED_CAST")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         configureRecyclerView()
-        toolbar.setOnMenuItemClickListener {
+        binding.toolbar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_map -> {
                     findNavController().navigate(R.id.action_listFragment_to_mapFragment)
@@ -56,13 +47,19 @@ class ListFragment : BaseFragment(R.layout.fragment_list) {
                 else -> false
             }
         }
+
         viewModel.stateLiveData.observe(viewLifecycleOwner) { state ->
             customViewFlipper.setState(state)
-            if (customViewFlipper.displayedChild == STATE_DATA) {
-                adapter.setItems((state as State.Data<List<Bridge>>).data)
-            } else if (customViewFlipper.displayedChild == STATE_ERROR) {
-                customViewFlipper.setOnErrorClickListener {
-                    viewModel.loadBridges()
+
+            when (customViewFlipper.displayedChild) {
+                STATE_DATA -> {
+                    val items = (state as State.Data<*>).data as List<Bridge>
+                    adapter.setItems(items)
+                }
+                STATE_ERROR -> {
+                    customViewFlipper.setOnErrorClickListener {
+                        viewModel.loadBridges()
+                    }
                 }
             }
         }
@@ -72,7 +69,7 @@ class ListFragment : BaseFragment(R.layout.fragment_list) {
         recyclerView.layoutManager = LinearLayoutManager(context)
         adapter.onItemClick = {
             val bundle = bundleOf(BRIDGE_ID to it.id)
-            findNavController().navigate(R.id.action_listFragment_to_detailFragment,bundle)
+            findNavController().navigate(R.id.action_listFragment_to_detailFragment, bundle)
         }
         recyclerView.adapter = adapter
     }

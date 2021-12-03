@@ -25,9 +25,7 @@ class CustomViewFlipper : ViewFlipper {
 
     private val binding = CustomViewFlipperBinding.inflate(LayoutInflater.from(context), this)
 
-    private fun init(context: Context, attrs: AttributeSet?) {
-
-    }
+    private fun init(context: Context, attrs: AttributeSet?) {}
 
     fun setOnErrorClickListener(callback: () -> Unit) {
         binding.buttonReloading.setOnClickListener {

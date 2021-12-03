@@ -22,9 +22,7 @@ class CustomViewBridge : ConstraintLayout {
 
     private val binding = CustomViewBridgeBinding.inflate(LayoutInflater.from(context), this)
 
-    private fun init(context: Context, attrs: AttributeSet?) {
-
-    }
+    private fun init(context: Context, attrs: AttributeSet?) {}
 
     fun bindBridge(bridge: Bridge) {
         binding.apply {

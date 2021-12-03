@@ -5,10 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import app.vazovsky.lesson_12_klyueva.data.model.Bridge
 import app.vazovsky.lesson_12_klyueva.data.model.State
 import app.vazovsky.lesson_12_klyueva.data.repository.Repository
-import app.vazovsky.lesson_12_klyueva.presentation.list.ListFragment.Companion.TAG
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

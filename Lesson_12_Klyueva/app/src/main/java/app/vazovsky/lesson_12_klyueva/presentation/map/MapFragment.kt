@@ -42,12 +42,12 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 
 class MapFragment : BaseFragment(R.layout.fragment_map), OnMapReadyCallback {
+
     private val viewModel: MapViewModel by appViewModels()
     private val binding by viewBinding(FragmentMapBinding::bind)
+
     private val customViewFlipper by lazy { binding.customViewFlipper }
 
-    //Карты, мосты, маркеры
-    private var userMarker: Marker? = null
     private var map: GoogleMap? = null
     private var markers: Map<Marker, Bridge> = emptyMap()
 
@@ -107,7 +107,7 @@ class MapFragment : BaseFragment(R.layout.fragment_map), OnMapReadyCallback {
     }
 
     /**
-     *
+     * Настройка карты
      */
     private fun configureMapFragment() {
         val mapFragment =
@@ -122,7 +122,7 @@ class MapFragment : BaseFragment(R.layout.fragment_map), OnMapReadyCallback {
     }
 
     /**
-    Настройка первоначальной камеры карты
+     * Настройка первоначальной камеры карты
      */
     private fun configureMoveCameraBounds() {
         val bounds = LatLngBounds.builder()
@@ -134,7 +134,7 @@ class MapFragment : BaseFragment(R.layout.fragment_map), OnMapReadyCallback {
     }
 
     /**
-    Преобразование моста в маркер
+     * Преобразование моста в маркер
      */
     private fun Bridge.toMarker(): Marker? {
         return map?.addMarker(
@@ -147,9 +147,8 @@ class MapFragment : BaseFragment(R.layout.fragment_map), OnMapReadyCallback {
     }
 
     /**
-    Преобразование векторного изображения в BitmapDescriptor
+     * Преобразование векторного изображения в BitmapDescriptor
      */
-
     private fun bitmapDescriptorFromVector(context: Context, vectorResId: Int): BitmapDescriptor? {
         return ContextCompat.getDrawable(context, vectorResId)?.run {
             setBounds(0, 0, intrinsicWidth, intrinsicHeight)
