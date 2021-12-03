@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Lesson_12_Klyueva</string>
+    <string name="menu_map">Карта</string>
+    <string name="button_reload">Обновить</string>
+    <string name="text_view_error">Пусто</string>
 </resources>
