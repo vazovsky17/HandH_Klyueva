@@ -97,12 +97,7 @@ class MapFragment : BaseFragment(R.layout.fragment_map), OnMapReadyCallback {
         val bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet)
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
         bottomSheetBehavior.isHideable = false
-
-        binding.bridgeItem.apply {
-            textViewBridgeName.text = bridge.name
-            textViewBridgeDivorce.text = bridge.getDivorceString()
-            imageViewBridgeState.setImageResource(bridge.getState())
-        }
+        binding.customViewBridge.bindBridge(bridge)
         textViewBridgeDescription.text = bridge.description
         Glide.with(requireContext())
             .asBitmap()

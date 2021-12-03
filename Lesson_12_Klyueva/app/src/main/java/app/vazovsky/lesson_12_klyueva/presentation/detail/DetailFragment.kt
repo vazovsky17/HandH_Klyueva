@@ -48,12 +48,7 @@ class DetailFragment : BaseFragment(R.layout.fragment_detail) {
             if (customViewFlipper.displayedChild == CustomViewFlipper.STATE_DATA) {
                 binding.apply {
                     val bridge = (state as State.Data<*>).data as Bridge
-                    Log.d(TAG, state.data.toString())
-                    bridgeItem.apply {
-                        textViewBridgeName.text = bridge.name
-                        textViewBridgeDivorce.text = bridge.getDivorceString()
-                        imageViewBridgeState.setImageResource(bridge.getState())
-                    }
+                    customViewBridge.bindBridge(bridge)
                     textViewBridgeDescription.text = bridge.description
 
                     Glide.with(this@DetailFragment)

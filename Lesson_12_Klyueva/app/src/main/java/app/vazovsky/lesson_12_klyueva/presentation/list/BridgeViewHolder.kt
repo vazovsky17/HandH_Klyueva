@@ -27,12 +27,7 @@ class BridgeViewHolder(
 
     fun bind(bridge: Bridge) {
         itemView.setOnClickListener { onItemClick(bridge) }
-        binding.apply {
-            textViewBridgeName.text = bridge.name
-            textViewBridgeDivorce.text = bridge.getDivorceString()
-            val state = bridge.getState()
-            imageViewBridgeState.setImageResource(state)
-        }
+        binding.customViewBridge.bindBridge(bridge)
     }
 
     @SuppressLint("UseCompatLoadingForColorStateLists")

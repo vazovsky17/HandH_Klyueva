@@ -48,9 +48,10 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <include
-                android:id="@+id/bridgeItem"
-                layout="@layout/bridge_item" />
+            <app.vazovsky.lesson_12_klyueva.presentation.CustomViewBridge
+                android:id="@+id/customViewBridge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
             <ImageView
                 android:id="@+id/imageViewBridgePicture"
