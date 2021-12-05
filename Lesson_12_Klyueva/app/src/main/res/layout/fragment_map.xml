@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:layout_collapseMode="pin"
-            app:navigationIcon="@drawable/ic_back"
+            app:menu="@menu/menu_map_toolbar"
             app:title="The Most SPB"
             app:titleTextColor="@color/white" />
     </com.google.android.material.appbar.AppBarLayout>
@@ -57,15 +57,17 @@
                 android:id="@+id/imageViewBridgePicture"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:layout_margin="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="16dp"
                 android:scaleType="centerCrop"
                 tools:srcCompat="@drawable/ic_launcher_background" />
 
             <TextView
+                android:layout_marginVertical="8dp"
+                android:layout_marginHorizontal="16dp"
                 android:id="@+id/textViewBridgeDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
                 android:fontFamily="@font/roboto"
                 android:textSize="14sp" />
         </LinearLayout>

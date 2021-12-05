@@ -3,8 +3,9 @@ package app.vazovsky.lesson_12_klyueva.presentation.list
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.vazovsky.lesson_12_klyueva.data.model.Bridge
+import javax.inject.Inject
 
-class ListAdapter : RecyclerView.Adapter<BridgeViewHolder>() {
+class ListAdapter @Inject constructor() : RecyclerView.Adapter<BridgeViewHolder>() {
     private val items = mutableListOf<Bridge>()
     lateinit var onItemClick: (Bridge) -> Unit
 

@@ -1,18 +1,10 @@
 package app.vazovsky.lesson_12_klyueva.presentation.map
 
-import android.Manifest
-import android.annotation.SuppressLint
 import android.content.Context
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.os.Bundle
-import android.os.Looper
-import android.util.Log
 import android.view.View
-import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import app.vazovsky.lesson_12_klyueva.R
@@ -22,20 +14,15 @@ import app.vazovsky.lesson_12_klyueva.data.model.State
 import app.vazovsky.lesson_12_klyueva.databinding.FragmentMapBinding
 import app.vazovsky.lesson_12_klyueva.presentation.CustomViewFlipper
 import app.vazovsky.lesson_12_klyueva.presentation.base.BaseFragment
-import app.vazovsky.lesson_12_klyueva.presentation.detail.DetailFragment
+import app.vazovsky.lesson_12_klyueva.presentation.list.ListFragmentDirections
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bumptech.glide.Glide
-import com.google.android.gms.location.LocationCallback
-import com.google.android.gms.location.LocationRequest
-import com.google.android.gms.location.LocationResult
-import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
@@ -46,10 +33,9 @@ class MapFragment : BaseFragment(R.layout.fragment_map), OnMapReadyCallback {
     private val viewModel: MapViewModel by appViewModels()
     private val binding by viewBinding(FragmentMapBinding::bind)
 
-    private val customViewFlipper by lazy { binding.customViewFlipper }
-
     private var map: GoogleMap? = null
     private var markers: Map<Marker, Bridge> = emptyMap()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,23 +45,34 @@ class MapFragment : BaseFragment(R.layout.fragment_map), OnMapReadyCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         configureMapFragment()
-        binding.toolbar.setNavigationOnClickListener {
-            findNavController().navigate(R.id.action_mapFragment_to_listFragment)
+        hideBottomSheet()
+
+        binding.toolbar.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.menu_list -> {
+                    findNavController().navigate(MapFragmentDirections.mapFragmentToListFragment())
+                    true
+                }
+                else -> false
+            }
         }
         viewModel.stateLiveData.observe(viewLifecycleOwner) { state ->
-            customViewFlipper.setState(state)
-            if (customViewFlipper.displayedChild == CustomViewFlipper.STATE_DATA) {
-                val data = (state as State.Data<List<Bridge>>).data
-                val map = map
-                if (map != null) {
-                    configureMarkers(data)
-                    configureMoveCameraBounds()
-                }
-            } else if (customViewFlipper.displayedChild == CustomViewFlipper.STATE_ERROR) {
-                customViewFlipper.setOnErrorClickListener {
-                    viewModel.loadBridges()
+            binding.apply {
+                customViewFlipper.setState(state)
+                if (customViewFlipper.displayedChild == CustomViewFlipper.STATE_DATA) {
+                    val data = (state as State.Data<List<Bridge>>).data
+                    val map = map
+                    if (map != null) {
+                        configureMarkers(data)
+                        configureMoveCameraBounds()
+                    }
+                } else if (customViewFlipper.displayedChild == CustomViewFlipper.STATE_ERROR) {
+                    customViewFlipper.setOnErrorClickListener {
+                        viewModel.loadBridges()
+                    }
                 }
             }
+
         }
     }
 
@@ -88,15 +85,16 @@ class MapFragment : BaseFragment(R.layout.fragment_map), OnMapReadyCallback {
             markers[marker]?.let { configureBottomSheet(it) }
             true
         }
+        map?.setOnMapClickListener {
+            hideBottomSheet()
+        }
     }
 
     /**
      * Настройка BottomSheet
      */
     private fun configureBottomSheet(bridge: Bridge) = with(binding) {
-        val bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet)
-        bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-        bottomSheetBehavior.isHideable = false
+        showBottomSheet()
         binding.customViewBridge.bindBridge(bridge)
         textViewBridgeDescription.text = bridge.description
         Glide.with(requireContext())
@@ -104,6 +102,19 @@ class MapFragment : BaseFragment(R.layout.fragment_map), OnMapReadyCallback {
             .load(if (bridge.getState() == STATE_LATE) bridge.photoCloseUrl else bridge.photoOpenUrl)
             .centerCrop()
             .into(imageViewBridgePicture)
+        customViewBridge.setOnClickListener {
+            bridge.id?.let { id ->
+                findNavController().navigate(MapFragmentDirections.mapFragmentToDetailFragment(id))
+            }
+        }
+    }
+
+    private fun hideBottomSheet() {
+        BottomSheetBehavior.from(binding.bottomSheet).state = BottomSheetBehavior.STATE_HIDDEN
+    }
+
+    private fun showBottomSheet() {
+        BottomSheetBehavior.from(binding.bottomSheet).state = BottomSheetBehavior.STATE_COLLAPSED
     }
 
     /**

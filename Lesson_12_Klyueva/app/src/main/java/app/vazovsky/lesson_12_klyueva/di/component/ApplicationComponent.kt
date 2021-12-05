@@ -2,7 +2,6 @@ package app.vazovsky.lesson_12_klyueva.di.component
 
 
 import app.vazovsky.lesson_12_klyueva.BridgesApplication
-import app.vazovsky.lesson_12_klyueva.data.remote.ApiService
 import app.vazovsky.lesson_12_klyueva.di.module.ActivityModule
 import app.vazovsky.lesson_12_klyueva.di.module.ApiServiceModule
 import app.vazovsky.lesson_12_klyueva.di.module.FragmentModule

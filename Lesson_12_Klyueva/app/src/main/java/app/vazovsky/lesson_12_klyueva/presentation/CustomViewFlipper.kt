@@ -31,7 +31,6 @@ class CustomViewFlipper : ViewFlipper {
         binding.buttonReloading.setOnClickListener {
             callback()
         }
-
     }
 
     fun setState(state: State) {
@@ -39,7 +38,12 @@ class CustomViewFlipper : ViewFlipper {
             is State.Loading -> displayedChild = STATE_LOADING
             is State.Error -> {
                 displayedChild = STATE_ERROR
-                binding.textViewError.text = state.error.message
+                binding.apply {
+                    textViewError.text = state.error.message
+                    buttonReloading.setOnClickListener {
+
+                    }
+                }
             }
             is State.Data<*> -> {
                 when (state.data) {
