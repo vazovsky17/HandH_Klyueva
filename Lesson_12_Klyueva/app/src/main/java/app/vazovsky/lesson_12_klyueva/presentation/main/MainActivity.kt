@@ -10,8 +10,6 @@ import app.vazovsky.lesson_12_klyueva.presentation.list.ListFragment
 import by.kirich1409.viewbindingdelegate.viewBinding
 
 class MainActivity : AppCompatActivity() {
-    private val binding by viewBinding(ActivityMainBinding::bind)
-    private val navController by lazy { (supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment).navController }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

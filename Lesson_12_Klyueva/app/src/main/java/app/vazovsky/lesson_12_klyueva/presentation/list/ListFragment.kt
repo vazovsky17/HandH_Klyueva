@@ -45,7 +45,7 @@ class ListFragment : BaseFragment(R.layout.fragment_list) {
         viewModel.stateLiveData.observe(viewLifecycleOwner) { state ->
             customViewFlipper.setState(state)
             if (customViewFlipper.displayedChild == STATE_DATA) {
-                val items = (state as State.Data<*>).data as List<Bridge>
+                val items = (state as State.Data<List<Bridge>>).data
                 adapter.setItems(items)
             }
         }

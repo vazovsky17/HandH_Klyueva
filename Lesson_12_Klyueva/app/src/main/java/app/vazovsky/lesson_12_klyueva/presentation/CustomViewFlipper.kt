@@ -33,17 +33,12 @@ class CustomViewFlipper : ViewFlipper {
         }
     }
 
-    fun setState(state: State) {
+    fun setState(state: State<*>) {
         when (state) {
             is State.Loading -> displayedChild = STATE_LOADING
             is State.Error -> {
                 displayedChild = STATE_ERROR
-                binding.apply {
-                    textViewError.text = state.error.message
-                    buttonReloading.setOnClickListener {
-
-                    }
-                }
+                binding.textViewError.text = state.error.message
             }
             is State.Data<*> -> {
                 when (state.data) {

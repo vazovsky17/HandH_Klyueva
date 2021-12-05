@@ -78,13 +78,15 @@ class MapFragment : BaseFragment(R.layout.fragment_map), OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
-        googleMap.uiSettings.apply {
-            isMapToolbarEnabled = false
+
+        googleMap.apply {
+            uiSettings.isMapToolbarEnabled = false
+            setOnMarkerClickListener { marker ->
+                markers[marker]?.let { configureBottomSheet(it) }
+                true
+            }
         }
-        googleMap.setOnMarkerClickListener { marker ->
-            markers[marker]?.let { configureBottomSheet(it) }
-            true
-        }
+
         map?.setOnMapClickListener {
             hideBottomSheet()
         }

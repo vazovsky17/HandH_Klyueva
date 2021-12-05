@@ -35,8 +35,8 @@ class DetailFragment : BaseFragment(R.layout.fragment_detail) {
 
         viewModel.stateLiveData.observe(viewLifecycleOwner) { state ->
             binding.customViewFlipper.setState(state)
-            if (state is State.Data<*>) {
-                val bridge = state.data as Bridge
+            if (state is State.Data<Bridge>) {
+                val bridge = state.data
                 setData(bridge)
             }
         }
